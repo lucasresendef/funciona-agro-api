@@ -1,8 +1,8 @@
 {
-  "realm": "field-management-backend",
+  "realm": "funciona-agro",
   "enabled": true,
-  "displayName": "Field Management Backend",
-  "displayNameHtml": "<b>Field Management Backend</b>",
+  "displayName": "Funciona Agro",
+  "displayNameHtml": "<b>Funciona Agro</b>",
   "registrationAllowed": false,
   "registrationEmailAsUsername": false,
   "rememberMe": true,
@@ -41,8 +41,8 @@
   },
   "clients": [
     {
-      "clientId": "field-management-api",
-      "name": "field-management-api",
+      "clientId": "funciona-agro-api",
+      "name": "funciona-agro-api",
       "description": "Public OIDC client for API and Flutter app using direct access grants",
       "enabled": true,
       "protocol": "openid-connect",
@@ -108,6 +108,35 @@
             "userinfo.token.claim": "true"
           }
         }
+      ]
+    },
+    {
+      "clientId": "funciona-agro-support",
+      "name": "funciona-agro-support",
+      "description": "Public OIDC client for React support/admin application",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "bearerOnly": false,
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "implicitFlowEnabled": false,
+      "frontchannelLogout": false,
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "basic",
+        "profile",
+        "email",
+        "roles",
+        "web-origins"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
       ]
     }
   ],

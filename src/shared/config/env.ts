@@ -7,8 +7,8 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   KEYCLOAK_PUBLIC_KEY: z.string().trim().min(1).default('test-public-key'),
   KEYCLOAK_URL: z.string().url().default('http://localhost:8181'),
-  KEYCLOAK_REALM: z.string().trim().min(1).default('field-management-backend'),
-  KEYCLOAK_CLIENT_ID: z.string().trim().min(1).default('field-management-api'),
+  KEYCLOAK_REALM: z.string().trim().min(1).default('funciona-agro'),
+  KEYCLOAK_CLIENT_ID: z.string().trim().min(1).default('funciona-agro-api'),
   ALLOWED_ORIGINS: z.string().trim().optional(),
 });
 

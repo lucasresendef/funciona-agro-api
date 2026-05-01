@@ -1,4 +1,4 @@
-# field-management-backend
+# funciona-agro-api
 
 Backend em `Node.js + TypeScript` para gerenciamento de insumos por fazenda e talhão, com base preparada para controle de estoque, saídas para talhão, devoluções, custo por operação e permissões por fazenda.
 
@@ -44,7 +44,7 @@ prisma/
 docker/
   keycloak/
     import/
-      field-management-backend-realm.json
+      funciona-agro-realm.json
   postgres/
     init.sql
 ```
@@ -81,7 +81,7 @@ Credenciais padrão do Keycloak em desenvolvimento:
 - usuário: `admin`
 - senha: `admin`
 
-Ao subir o ambiente, o Keycloak importa automaticamente o realm `field-management-backend` e o client `field-management-api`.
+Ao subir o ambiente, o Keycloak importa automaticamente o realm `funciona-agro` e os clients `funciona-agro-api` e `funciona-agro-support`.
 
 ## Banco de dados e migrations
 
@@ -148,7 +148,7 @@ A API ficará rodando no seu terminal em `http://localhost:3099`.
 Se o container da API estiver rodando, pare antes para evitar conflito na porta `3099`:
 
 ```bash
-docker compose stop field-management-backend-api
+docker compose stop funciona-agro-api
 ```
 
 Logs da infraestrutura:
@@ -225,10 +225,11 @@ As rotas de negócio estão protegidas por autenticação. Neste momento, apenas
 
 ## Keycloak
 
-O projeto já inclui um import automático inicial em [field-management-backend-realm.json](/Users/lucasresende/Documents/Codes/fields-code/field-management-backend/docker/keycloak/import/field-management-backend-realm.json), com:
+O projeto já inclui um import automático inicial em [funciona-agro-realm.json](/Users/lucasresende/Documents/Codes/fields-code/funciona-agro-api/docker/keycloak/import/funciona-agro-realm.json), com:
 
-- realm `field-management-backend`
-- client público `field-management-api` para app Flutter/mobile usando `Direct Access Grants`
+- realm `funciona-agro`
+- client público `funciona-agro-api` para app Flutter/mobile usando `Direct Access Grants`
+- client público `funciona-agro-support` para app React administrativo (support)
 - claim obrigatória `tenant_id` no access token
 - claims `sub`, `preferred_username`, `name` e `email` disponíveis no token
 - roles de base: `app-admin`, `farm-owner`, `farm-manager`, `farm-operator`, `farm-viewer`
@@ -365,7 +366,7 @@ curl -X PATCH http://localhost:3099/field-operations/9905b666-577c-40af-bd14-996
 
 1. Acesse `http://localhost:8181`
 2. Entre com `admin / admin`
-3. Selecione o realm `field-management-backend`
+3. Selecione o realm `funciona-agro`
 4. Vá em `Users`
 5. Crie o usuário
 6. Em `Credentials`, defina uma senha e marque como permanente
