@@ -1,0 +1,2686 @@
+[
+  {
+    "name": "GLYPHOTAL",
+    "unit": "LT"
+  },
+  {
+    "name": "APROACH",
+    "unit": "LT"
+  },
+  {
+    "name": "PREMIO",
+    "unit": "LT"
+  },
+  {
+    "name": "PRISMA PLUS",
+    "unit": "LT"
+  },
+  {
+    "name": "GALEAO",
+    "unit": "KG"
+  },
+  {
+    "name": "CLASSIC",
+    "unit": "KG"
+  },
+  {
+    "name": "BATENT - GL 1LT",
+    "unit": "LT"
+  },
+  {
+    "name": "BENEVIA 10 OD BR",
+    "unit": "LT"
+  },
+  {
+    "name": "BISTAR 100EC",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORIMUROM 250",
+    "unit": "KG"
+  },
+  {
+    "name": "CURY",
+    "unit": "LT"
+  },
+  {
+    "name": "EPINGLE",
+    "unit": "LT"
+  },
+  {
+    "name": "FOX",
+    "unit": "LT"
+  },
+  {
+    "name": "MAXIM XL - GL 5",
+    "unit": "LT"
+  },
+  {
+    "name": "POQUER",
+    "unit": "LT"
+  },
+  {
+    "name": "TOCHA - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "TRINCA",
+    "unit": "LT"
+  },
+  {
+    "name": "TINO",
+    "unit": "LT"
+  },
+  {
+    "name": "GALIL",
+    "unit": "LT"
+  },
+  {
+    "name": "BRILHANTE - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "AZIMUT - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "AURORA",
+    "unit": "LT"
+  },
+  {
+    "name": "HELMSTAR PLUS",
+    "unit": "LT"
+  },
+  {
+    "name": "PORCEL 100 - GL 1LT",
+    "unit": "LT"
+  },
+  {
+    "name": "POWER MAX - 5",
+    "unit": "LT"
+  },
+  {
+    "name": "ZURA 806 SL - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "IMPRESSIVE 250 WP - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "JAMBTRIN",
+    "unit": "LT"
+  },
+  {
+    "name": "AGER BORO - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "URGE 750 SP - CX 2X5KG",
+    "unit": "KG"
+  },
+  {
+    "name": "SPURION - GL 1LT",
+    "unit": "LT"
+  },
+  {
+    "name": "MEGAFOL BR - GL10",
+    "unit": "LT"
+  },
+  {
+    "name": "GRANARY",
+    "unit": "KG"
+  },
+  {
+    "name": "VESSARYA",
+    "unit": "LT"
+  },
+  {
+    "name": "DIAMANTE BR - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "SEIZER",
+    "unit": "LT"
+  },
+  {
+    "name": "SIPTROIL",
+    "unit": "LT"
+  },
+  {
+    "name": "VORAZ - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "RIMON SUPRA - CX 12X1L",
+    "unit": "LT"
+  },
+  {
+    "name": "GAME - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "RAPEL",
+    "unit": "KG"
+  },
+  {
+    "name": "LANNATE BR - GL 10LT",
+    "unit": "LT"
+  },
+  {
+    "name": "DIMESCION",
+    "unit": "LT"
+  },
+  {
+    "name": "UNIZEB GOLD",
+    "unit": "KG"
+  },
+  {
+    "name": "ARGENFRUT",
+    "unit": "LT"
+  },
+  {
+    "name": "FLEX",
+    "unit": "LT"
+  },
+  {
+    "name": "SUPPORT",
+    "unit": "LT"
+  },
+  {
+    "name": "STIMULATE",
+    "unit": "LT"
+  },
+  {
+    "name": "FLUMYZIN",
+    "unit": "LT"
+  },
+  {
+    "name": "CERCONIL - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "GRAMOXONE 200 - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "ENGEO PLENO - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "2-4D TERNOMYL",
+    "unit": "LT"
+  },
+  {
+    "name": "TALSTAR",
+    "unit": "LT"
+  },
+  {
+    "name": "DIMAX 480",
+    "unit": "SC"
+  },
+  {
+    "name": "APRON RFC - FR 1LT",
+    "unit": "LT"
+  },
+  {
+    "name": "SOLDIER 720 WG - CX 4X5KG",
+    "unit": "KG"
+  },
+  {
+    "name": "HELMOXONE - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "SPERTO - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "TARGET COMPLETO - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORIN - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "UNIZEB GOLD 750 WG - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "SUPPORT - GL 1LT",
+    "unit": "LT"
+  },
+  {
+    "name": "DIMEXION - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "PRIORI XTRA - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "SCORE FLEXI - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "ORTHENE - PCT 5KG",
+    "unit": "KG"
+  },
+  {
+    "name": "TRULYMAX - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "REGENT 800 WG - PCT 4KG",
+    "unit": "KG"
+  },
+  {
+    "name": "INITIATE",
+    "unit": "LT"
+  },
+  {
+    "name": "K-SOL + MG - 5KG",
+    "unit": "KG"
+  },
+  {
+    "name": "PARRUDO BR",
+    "unit": "LT"
+  },
+  {
+    "name": "ZIGNAL",
+    "unit": "LT"
+  },
+  {
+    "name": "COMO PLATINUM - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "PRO TANK",
+    "unit": "KG"
+  },
+  {
+    "name": "CUPROZIN - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "FOSTER COMO - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "TOP ZINCO - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "PROTEAT",
+    "unit": "LT"
+  },
+  {
+    "name": "BASAGRAN 600 - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "CERTEZA",
+    "unit": "LT"
+  },
+  {
+    "name": "APPROVE",
+    "unit": "KG"
+  },
+  {
+    "name": "MERTIN",
+    "unit": "LT"
+  },
+  {
+    "name": "MUCH 600 FS - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "POQUER - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "FORE NT -",
+    "unit": "SC"
+  },
+  {
+    "name": "HELMSTAR PLUS - GL 10LT",
+    "unit": "LT"
+  },
+  {
+    "name": "GALEÃO -",
+    "unit": "SC"
+  },
+  {
+    "name": "ORFEU - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "VORAZ - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "NEW - BD 25LT",
+    "unit": "LT"
+  },
+  {
+    "name": "AMPLO",
+    "unit": "LT"
+  },
+  {
+    "name": "LIBERTY - GL 10LT",
+    "unit": "LT"
+  },
+  {
+    "name": "VERDICT",
+    "unit": "LT"
+  },
+  {
+    "name": "DACOBRE",
+    "unit": "KG"
+  },
+  {
+    "name": "SUMILEX 500 WP - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "BATTUS - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "IMIDAGOLD",
+    "unit": "KG"
+  },
+  {
+    "name": "BENZOATO - PCT 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "SMART COBRE - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "INDUCTOR SEED",
+    "unit": "LT"
+  },
+  {
+    "name": "AMINOFLEX MICROS",
+    "unit": "LT"
+  },
+  {
+    "name": "INOC. LIQUIDO NODUSGREEN L (SC3,0 LTS-40DS)",
+    "unit": "DS"
+  },
+  {
+    "name": "SUPER PLUS NP10 - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "GLI-UP 720 WG",
+    "unit": "KG"
+  },
+  {
+    "name": "AQUAMAX",
+    "unit": "LT"
+  },
+  {
+    "name": "SETT MIX - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "BRANDT N 3200",
+    "unit": "LT"
+  },
+  {
+    "name": "PREVINIL - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "CARTAP",
+    "unit": "KG"
+  },
+  {
+    "name": "TURBO",
+    "unit": "LT"
+  },
+  {
+    "name": "BARÃO 800 WG - PCT 4KG",
+    "unit": "KG"
+  },
+  {
+    "name": "FUSILADE",
+    "unit": "LT"
+  },
+  {
+    "name": "GALLANT - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "OUT",
+    "unit": "KG"
+  },
+  {
+    "name": "ORKESTRA",
+    "unit": "LT"
+  },
+  {
+    "name": "ZETHAPYR",
+    "unit": "LT"
+  },
+  {
+    "name": "PERITO",
+    "unit": "KG"
+  },
+  {
+    "name": "CRONNOS - BD 20LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "ADUBO MAP PURIFICADO",
+    "unit": "KG"
+  },
+  {
+    "name": "MOZIC",
+    "unit": "LT"
+  },
+  {
+    "name": "RAJER",
+    "unit": "KG"
+  },
+  {
+    "name": "RANCONA T FS 4X5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "TA35 - ADJUVANTE (TB 200 LTS)",
+    "unit": "LT"
+  },
+  {
+    "name": "XEQUE MATE - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "LANNATE BR - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "FUSAO EC - GL 10LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "AÇUCAR",
+    "unit": "KG"
+  },
+  {
+    "name": "KRATON",
+    "unit": "LT"
+  },
+  {
+    "name": "RHIZOTROP 1 TURFA - CX 200 DOSES",
+    "unit": "DS"
+  },
+  {
+    "name": "FERTILIZANTE BOROPLEX - 20LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "BSOL",
+    "unit": "KG"
+  },
+  {
+    "name": "BATENT - CX 4X5L",
+    "unit": "LT"
+  },
+  {
+    "name": "SPERTO - CX 4X5",
+    "unit": "KG"
+  },
+  {
+    "name": "PRINCIPAL",
+    "unit": "KG"
+  },
+  {
+    "name": "AVIDO BR - BD 20L",
+    "unit": "LT"
+  },
+  {
+    "name": "KAISO 250 CA - GL 05LT",
+    "unit": "LT"
+  },
+  {
+    "name": "TARGET MOLIBDENIO",
+    "unit": "LT"
+  },
+  {
+    "name": "GALEAO - PC 1KG",
+    "unit": "KG"
+  },
+  {
+    "name": "DIFLUMAX",
+    "unit": "LT"
+  },
+  {
+    "name": "RIMON SUPRA - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "PRIORI XTRA - BD 20L",
+    "unit": "LT"
+  },
+  {
+    "name": "EXPEDITION - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "TARGET N3200 - BD 20LT",
+    "unit": "LT"
+  },
+  {
+    "name": "ELATUS",
+    "unit": "KG"
+  },
+  {
+    "name": "HERO",
+    "unit": "LT"
+  },
+  {
+    "name": "RHIZOTROP 2 - CX 4X3L",
+    "unit": "LT"
+  },
+  {
+    "name": "PROOF",
+    "unit": "LT"
+  },
+  {
+    "name": "FERT. FOL. QUIMIFOL K 40 -",
+    "unit": "SC"
+  },
+  {
+    "name": "FINALE",
+    "unit": "LT"
+  },
+  {
+    "name": "F GRAP 110 COBALTO MOL",
+    "unit": "LT"
+  },
+  {
+    "name": "GRAFITE",
+    "unit": "KG"
+  },
+  {
+    "name": "CIGARAL- PCT",
+    "unit": "KG"
+  },
+  {
+    "name": "NUPRID 700 WG 2X5",
+    "unit": "KG"
+  },
+  {
+    "name": "DERMACOR",
+    "unit": "LT"
+  },
+  {
+    "name": "EVO MN - 10 L",
+    "unit": "LT"
+  },
+  {
+    "name": "EVO MOP - 05 L",
+    "unit": "LT"
+  },
+  {
+    "name": "TOP ZINCO - 10 L",
+    "unit": "LT"
+  },
+  {
+    "name": "CLEAN - 01 L",
+    "unit": "LT"
+  },
+  {
+    "name": "DMA 806 BR",
+    "unit": "LT"
+  },
+  {
+    "name": "DAGA",
+    "unit": "LT"
+  },
+  {
+    "name": "ECHO",
+    "unit": "LT"
+  },
+  {
+    "name": "RIDOVER WG - PCT 5",
+    "unit": "KG"
+  },
+  {
+    "name": "SALUZI",
+    "unit": "LT"
+  },
+  {
+    "name": "VIANCE",
+    "unit": "LT"
+  },
+  {
+    "name": "CIPERMETRINA",
+    "unit": "LT"
+  },
+  {
+    "name": "DANIMEN",
+    "unit": "LT"
+  },
+  {
+    "name": "INOCULANTE",
+    "unit": "DS"
+  },
+  {
+    "name": "INOCULANTE AZOSPIRILLUM (SC 5,0 LTS - 50 DS)",
+    "unit": "DS"
+  },
+  {
+    "name": "GLIFORT",
+    "unit": "KG"
+  },
+  {
+    "name": "INOC. NODUBEANS L FEIJAO",
+    "unit": "SC"
+  },
+  {
+    "name": "ASSARIS - METOMIL (BD 20LTS)",
+    "unit": "LT"
+  },
+  {
+    "name": "FLAK",
+    "unit": "LT"
+  },
+  {
+    "name": "WETCIT GOLD 1X20L",
+    "unit": "LT"
+  },
+  {
+    "name": "ABAMECTIN",
+    "unit": "LT"
+  },
+  {
+    "name": "DIFERE - GL 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "STIMULATE - GL 5LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "COMO PLATINUM - GL 5LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "STARTER MN",
+    "unit": "LT"
+  },
+  {
+    "name": "KASAN MAX 750 WG -",
+    "unit": "SC"
+  },
+  {
+    "name": "FULLAND 20 L",
+    "unit": "LT"
+  },
+  {
+    "name": "STURDY - 20",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORPIRIFOS NORTOX EC 480 - BD 20LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "CRUISER",
+    "unit": "LT"
+  },
+  {
+    "name": "SOMBRERO",
+    "unit": "LT"
+  },
+  {
+    "name": "SELECT",
+    "unit": "LT"
+  },
+  {
+    "name": "ROTAXIL 500 - GL 5LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "UNIZEB GLORY",
+    "unit": "LT"
+  },
+  {
+    "name": "STOLLER BORO",
+    "unit": "LT"
+  },
+  {
+    "name": "STOLLER ZINCO",
+    "unit": "LT"
+  },
+  {
+    "name": "ABADIN 72 EC - 01LT",
+    "unit": "LT"
+  },
+  {
+    "name": "MULTICOMONI P F 1L",
+    "unit": "LT"
+  },
+  {
+    "name": "ACETAMIPRID",
+    "unit": "KG"
+  },
+  {
+    "name": "HOLD - BD 20LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTILIZANTE FOLIAR AMINOFOL - BD 20LTS",
+    "unit": "LT"
+  },
+  {
+    "name": "H2 ALVO NEUTRO - 1LT",
+    "unit": "LT"
+  },
+  {
+    "name": "RASS 32 - DETERGENTE",
+    "unit": "LT"
+  },
+  {
+    "name": "MOVER",
+    "unit": "LT"
+  },
+  {
+    "name": "NITROPLUS",
+    "unit": "LT"
+  },
+  {
+    "name": "CURADO - 5LT",
+    "unit": "LT"
+  },
+  {
+    "name": "REFORCE +",
+    "unit": "LT"
+  },
+  {
+    "name": "BOOSTER ZN/MO - 5",
+    "unit": "LT"
+  },
+  {
+    "name": "BROADACRE CMZ",
+    "unit": "LT"
+  },
+  {
+    "name": "POWER MAX - 1",
+    "unit": "LT"
+  },
+  {
+    "name": "ATMO INOCULANTE LÍQUIDO 1,5",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTILIZANTE 03-32-08",
+    "unit": "KG"
+  },
+  {
+    "name": "PUMMA",
+    "unit": "KG"
+  },
+  {
+    "name": "ATRAZINA",
+    "unit": "LT"
+  },
+  {
+    "name": "CEFANOL",
+    "unit": "KG"
+  },
+  {
+    "name": "URÉIA",
+    "unit": "SC"
+  },
+  {
+    "name": "ADUBO MAP CRISTAL",
+    "unit": "SC"
+  },
+  {
+    "name": "ALRTISS BB",
+    "unit": "LT"
+  },
+  {
+    "name": "MASTER MAXXI2",
+    "unit": "LT"
+  },
+  {
+    "name": "SEPIRET",
+    "unit": "KG"
+  },
+  {
+    "name": "CM FLO RITE GREEN",
+    "unit": "LT"
+  },
+  {
+    "name": "KLORPAN 480",
+    "unit": "LT"
+  },
+  {
+    "name": "U46 BR",
+    "unit": "LT"
+  },
+  {
+    "name": "NOMOLT",
+    "unit": "LT"
+  },
+  {
+    "name": "TRIFLURALINA GOLD 450",
+    "unit": "UN"
+  },
+  {
+    "name": "COMPACT 4X5",
+    "unit": "LT"
+  },
+  {
+    "name": "FASTAC 100",
+    "unit": "LT"
+  },
+  {
+    "name": "TRADECORP ZN + MN",
+    "unit": "KG"
+  },
+  {
+    "name": "VORAX",
+    "unit": "LT"
+  },
+  {
+    "name": "MULTIMAG 9 SULFATO",
+    "unit": "SC"
+  },
+  {
+    "name": "CT - GREEN",
+    "unit": "UN"
+  },
+  {
+    "name": "NAMOLT 150",
+    "unit": "SC"
+  },
+  {
+    "name": "PENNCOZEB WG",
+    "unit": "KG"
+  },
+  {
+    "name": "ATON MO",
+    "unit": "LT"
+  },
+  {
+    "name": "POWER MAX NEUTRO",
+    "unit": "LT"
+  },
+  {
+    "name": "PIRIPROXIFEM",
+    "unit": "LT"
+  },
+  {
+    "name": "NORTON SL 20 L",
+    "unit": "UN"
+  },
+  {
+    "name": "INDUCTOR ZEB",
+    "unit": "LT"
+  },
+  {
+    "name": "CARTAGO 4X5",
+    "unit": "LT"
+  },
+  {
+    "name": "TRUNFO",
+    "unit": "LT"
+  },
+  {
+    "name": "COUGAR 10%",
+    "unit": "LT"
+  },
+  {
+    "name": "WILD 480 EC",
+    "unit": "LT"
+  },
+  {
+    "name": "EXEMPLO",
+    "unit": "LT"
+  },
+  {
+    "name": "ALTRIS",
+    "unit": "LT"
+  },
+  {
+    "name": "TERRAPHÓS",
+    "unit": "KG"
+  },
+  {
+    "name": "DUAL GOLD 960 EC",
+    "unit": "LT"
+  },
+  {
+    "name": "OPERA 2X10",
+    "unit": "LT"
+  },
+  {
+    "name": "TRIANUM 1",
+    "unit": "KG"
+  },
+  {
+    "name": "IMAZETAPIR",
+    "unit": "LT"
+  },
+  {
+    "name": "ZAVIT",
+    "unit": "KG"
+  },
+  {
+    "name": "PIELD 20 L",
+    "unit": "LT"
+  },
+  {
+    "name": "FIELD 20 L",
+    "unit": "LT"
+  },
+  {
+    "name": "CICLONE 48 EC 20",
+    "unit": "LT"
+  },
+  {
+    "name": "POWER CLEAN",
+    "unit": "LT"
+  },
+  {
+    "name": "SUPREME",
+    "unit": "LT"
+  },
+  {
+    "name": "COBRE DIFERE",
+    "unit": "UN"
+  },
+  {
+    "name": "TEMPORAL FR 1",
+    "unit": "LT"
+  },
+  {
+    "name": "FOX XPRO",
+    "unit": "LT"
+  },
+  {
+    "name": "VIGORA",
+    "unit": "LT"
+  },
+  {
+    "name": "VIGORA 5",
+    "unit": "LT"
+  },
+  {
+    "name": "ICON ZMC 2L",
+    "unit": "LT"
+  },
+  {
+    "name": "PRIME VITAL 1",
+    "unit": "LT"
+  },
+  {
+    "name": "PRIME VITAL 5",
+    "unit": "LT"
+  },
+  {
+    "name": "LAMBDA CIALOTRIMA (SAMURAI)",
+    "unit": "LT"
+  },
+  {
+    "name": "DIFENOCOMAZOLE 250",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORIMURUM",
+    "unit": "KG"
+  },
+  {
+    "name": "PROCLAIM ULTRA",
+    "unit": "KG"
+  },
+  {
+    "name": "SAFE",
+    "unit": "LT"
+  },
+  {
+    "name": "KRUGAR",
+    "unit": "LT"
+  },
+  {
+    "name": "CUPRITAL 2XX5",
+    "unit": "LT"
+  },
+  {
+    "name": "FIPRONIL",
+    "unit": "KG"
+  },
+  {
+    "name": "STATUS",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTIGOFOL",
+    "unit": "LT"
+  },
+  {
+    "name": "MAXPORT",
+    "unit": "LT"
+  },
+  {
+    "name": "LI 700 (IBC 1000 LT)",
+    "unit": "LT"
+  },
+  {
+    "name": "MIRZA",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTIGOFOL ULTRA 2 X 10",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTIGOFOL ULTRA 1 X 10",
+    "unit": "LT"
+  },
+  {
+    "name": "OFFER",
+    "unit": "LT"
+  },
+  {
+    "name": "NUTRE BORO 5",
+    "unit": "LT"
+  },
+  {
+    "name": "NUTRE MANGANES 5",
+    "unit": "LT"
+  },
+  {
+    "name": "ULTIMATO 500",
+    "unit": "SC"
+  },
+  {
+    "name": "PRIMESTRA GOLD",
+    "unit": "LT"
+  },
+  {
+    "name": "UPMYL 215 SL (BD 20 LT)",
+    "unit": "LT"
+  },
+  {
+    "name": "CONNECT",
+    "unit": "LT"
+  },
+  {
+    "name": "BEZERRO ATÉ 12 MESES",
+    "unit": "UN"
+  },
+  {
+    "name": "ZAPHIR",
+    "unit": "LT"
+  },
+  {
+    "name": "HL",
+    "unit": "LT"
+  },
+  {
+    "name": "HERBITRIN",
+    "unit": "LT"
+  },
+  {
+    "name": "CRUCIAL",
+    "unit": "LT"
+  },
+  {
+    "name": "SOBERAN",
+    "unit": "LT"
+  },
+  {
+    "name": "COBRA",
+    "unit": "LT"
+  },
+  {
+    "name": "2,4D AMINA",
+    "unit": "LT"
+  },
+  {
+    "name": "GLYPHOTAL TR",
+    "unit": "LT"
+  },
+  {
+    "name": "GAMIT",
+    "unit": "LT"
+  },
+  {
+    "name": "BASAGRAM",
+    "unit": "LT"
+  },
+  {
+    "name": "NIFERE",
+    "unit": "LT"
+  },
+  {
+    "name": "HOROS",
+    "unit": "LT"
+  },
+  {
+    "name": "CARNADINE",
+    "unit": "LT"
+  },
+  {
+    "name": "PROCLAIM 50",
+    "unit": "KG"
+  },
+  {
+    "name": "AGRITOATO",
+    "unit": "LT"
+  },
+  {
+    "name": "PIRATE",
+    "unit": "LT"
+  },
+  {
+    "name": "EMAMEC",
+    "unit": "KG"
+  },
+  {
+    "name": "MASTERFIX",
+    "unit": "KG"
+  },
+  {
+    "name": "SUPREMO",
+    "unit": "LT"
+  },
+  {
+    "name": "AVATAR",
+    "unit": "LT"
+  },
+  {
+    "name": "BITRIN EC",
+    "unit": "LT"
+  },
+  {
+    "name": "AKRO D",
+    "unit": "LT"
+  },
+  {
+    "name": "ORO - SOLVE",
+    "unit": "LT"
+  },
+  {
+    "name": "EVOLUTION",
+    "unit": "LT"
+  },
+  {
+    "name": "BIG-RED",
+    "unit": "LT"
+  },
+  {
+    "name": "DRIPPY",
+    "unit": "LT"
+  },
+  {
+    "name": "VEGET OIL",
+    "unit": "LT"
+  },
+  {
+    "name": "BIOSIL SB",
+    "unit": "LT"
+  },
+  {
+    "name": "VEEDER",
+    "unit": "LT"
+  },
+  {
+    "name": "ACTIVE K480",
+    "unit": "LT"
+  },
+  {
+    "name": "CUPROZIN",
+    "unit": "LT"
+  },
+  {
+    "name": "BOROPLEX",
+    "unit": "LT"
+  },
+  {
+    "name": "NATURAL OLEO",
+    "unit": "LT"
+  },
+  {
+    "name": "KRISTA K (12 00 43)",
+    "unit": "LT"
+  },
+  {
+    "name": "P51",
+    "unit": "LT"
+  },
+  {
+    "name": "NUTRI BORO",
+    "unit": "LT"
+  },
+  {
+    "name": "NUTRI MANGANÊS",
+    "unit": "LT"
+  },
+  {
+    "name": "CO - MO PLATINUM",
+    "unit": "LT"
+  },
+  {
+    "name": "DESADERE",
+    "unit": "LT"
+  },
+  {
+    "name": "ZMC PLUS (ZN + MO + CO)",
+    "unit": "LT"
+  },
+  {
+    "name": "SULFATO MAGNÉSIO",
+    "unit": "KG"
+  },
+  {
+    "name": "BOROTOP",
+    "unit": "KG"
+  },
+  {
+    "name": "UREIA GRANULADA",
+    "unit": "KG"
+  },
+  {
+    "name": "FLASH",
+    "unit": "LT"
+  },
+  {
+    "name": "DIQUATE",
+    "unit": "LT"
+  },
+  {
+    "name": "RIZOKOP LIQ",
+    "unit": "LT"
+  },
+  {
+    "name": "INOC. LIQUIDO SOJA",
+    "unit": "KG"
+  },
+  {
+    "name": "INOC. AZOSPRYRILIUM",
+    "unit": "KG"
+  },
+  {
+    "name": "FS 33-00-00",
+    "unit": "KG"
+  },
+  {
+    "name": "ATMO INOCULANTE",
+    "unit": "LT"
+  },
+  {
+    "name": "POWER GARLIC",
+    "unit": "LT"
+  },
+  {
+    "name": "KIT GAMMON",
+    "unit": "UN"
+  },
+  {
+    "name": "ONE A PRO 4X5",
+    "unit": "LT"
+  },
+  {
+    "name": "MATCH EC",
+    "unit": "LT"
+  },
+  {
+    "name": "PIREO",
+    "unit": "LT"
+  },
+  {
+    "name": "VIOVAN",
+    "unit": "LT"
+  },
+  {
+    "name": "COMO P10",
+    "unit": "LT"
+  },
+  {
+    "name": "FASCINATE",
+    "unit": "LT"
+  },
+  {
+    "name": "TEBURAZ",
+    "unit": "LT"
+  },
+  {
+    "name": "D PAMPA",
+    "unit": "LT"
+  },
+  {
+    "name": "D DIMILIN",
+    "unit": "KG"
+  },
+  {
+    "name": "KINGSTAR XTRA",
+    "unit": "LT"
+  },
+  {
+    "name": "NO-NEMA",
+    "unit": "LT"
+  },
+  {
+    "name": "BIOMAX PREMIUM",
+    "unit": "LT"
+  },
+  {
+    "name": "ENERGY",
+    "unit": "LT"
+  },
+  {
+    "name": "ELISION",
+    "unit": "LT"
+  },
+  {
+    "name": "ADITIVO RAD ORANGE 20 L",
+    "unit": "LT"
+  },
+  {
+    "name": "ADITIVIO RAD ORANGE 5L",
+    "unit": "LT"
+  },
+  {
+    "name": "OCTANE",
+    "unit": "LT"
+  },
+  {
+    "name": "EXALT BTLHPEA",
+    "unit": "LT"
+  },
+  {
+    "name": "PROMETA",
+    "unit": "KG"
+  },
+  {
+    "name": "TRADEBOR",
+    "unit": "LT"
+  },
+  {
+    "name": "CELLERATE",
+    "unit": "LT"
+  },
+  {
+    "name": "RE-LEAF",
+    "unit": "LT"
+  },
+  {
+    "name": "STOLLER MOVER",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTIL 12 60 00",
+    "unit": "KG"
+  },
+  {
+    "name": "ROUNDUP",
+    "unit": "LT"
+  },
+  {
+    "name": "ABSOLUTO",
+    "unit": "KG"
+  },
+  {
+    "name": "KYOJIN",
+    "unit": "LT"
+  },
+  {
+    "name": "TALISMAN",
+    "unit": "LT"
+  },
+  {
+    "name": "ALCYGOL BORE",
+    "unit": "LT"
+  },
+  {
+    "name": "FIGHTER",
+    "unit": "LT"
+  },
+  {
+    "name": "HELMOQUAT",
+    "unit": "LT"
+  },
+  {
+    "name": "PROTETIVO AGRICOLA",
+    "unit": "LT"
+  },
+  {
+    "name": "TILT",
+    "unit": "LT"
+  },
+  {
+    "name": "BRANDT COMPLETO",
+    "unit": "LT"
+  },
+  {
+    "name": "SUPA COMPLETE",
+    "unit": "LT"
+  },
+  {
+    "name": "IHAROL GOLD",
+    "unit": "LT"
+  },
+  {
+    "name": "INOCULANTE LIQUIDO RIZOBIUM",
+    "unit": "LT"
+  },
+  {
+    "name": "INOCULANTE FEIJÃO",
+    "unit": "LT"
+  },
+  {
+    "name": "AZOSPIRILO",
+    "unit": "LT"
+  },
+  {
+    "name": "RECONIL",
+    "unit": "KG"
+  },
+  {
+    "name": "ROTAXIL",
+    "unit": "LT"
+  },
+  {
+    "name": "QUEBEC",
+    "unit": "LT"
+  },
+  {
+    "name": "ZML",
+    "unit": "LT"
+  },
+  {
+    "name": "DAIJ",
+    "unit": "LT"
+  },
+  {
+    "name": "SARTOP",
+    "unit": "SC"
+  },
+  {
+    "name": "FERTILIZANTE SULFATO DE AMONIO",
+    "unit": "KG"
+  },
+  {
+    "name": "FERTILIZANTE UREIA",
+    "unit": "KG"
+  },
+  {
+    "name": "AUTENTICOBR",
+    "unit": "KG"
+  },
+  {
+    "name": "MAXCEL",
+    "unit": "LT"
+  },
+  {
+    "name": "PLATINUM NEO",
+    "unit": "LT"
+  },
+  {
+    "name": "NECTAR",
+    "unit": "LT"
+  },
+  {
+    "name": "RATEIO 200",
+    "unit": "LT"
+  },
+  {
+    "name": "SOLO TECH SPEED",
+    "unit": "KG"
+  },
+  {
+    "name": "FERTILIZANTE SOLO",
+    "unit": "KG"
+  },
+  {
+    "name": "AZOSPEED",
+    "unit": "LT"
+  },
+  {
+    "name": "POD STICK",
+    "unit": "LT"
+  },
+  {
+    "name": "TEMPLO",
+    "unit": "LT"
+  },
+  {
+    "name": "DART",
+    "unit": "LT"
+  },
+  {
+    "name": "REGIO",
+    "unit": "LT"
+  },
+  {
+    "name": "CARBENDAZIM",
+    "unit": "LT"
+  },
+  {
+    "name": "GLUSOFINATO",
+    "unit": "LT"
+  },
+  {
+    "name": "EXCLN 30 00 20 UR",
+    "unit": "KG"
+  },
+  {
+    "name": "AZZOFIX",
+    "unit": "LT"
+  },
+  {
+    "name": "SYNFLEX",
+    "unit": "LT"
+  },
+  {
+    "name": "MAJOR",
+    "unit": "KG"
+  },
+  {
+    "name": "YARATERA KRISTA MAP",
+    "unit": "KG"
+  },
+  {
+    "name": "BIOMA BRADY TURFOSO SOJA",
+    "unit": "DS"
+  },
+  {
+    "name": "ALLDRY FORQ",
+    "unit": "KG"
+  },
+  {
+    "name": "RACIMAX",
+    "unit": "LT"
+  },
+  {
+    "name": "IMPARBR",
+    "unit": "LT"
+  },
+  {
+    "name": "POLIPLUS XTRA",
+    "unit": "LT"
+  },
+  {
+    "name": "PACTO",
+    "unit": "KG"
+  },
+  {
+    "name": "SEM. UROCHLOA",
+    "unit": "SC"
+  },
+  {
+    "name": "GLIFOSATO",
+    "unit": "LT"
+  },
+  {
+    "name": "FRENO",
+    "unit": "LT"
+  },
+  {
+    "name": "TRUPER",
+    "unit": "LT"
+  },
+  {
+    "name": "FAINAL",
+    "unit": "LT"
+  },
+  {
+    "name": "AMPLIGO",
+    "unit": "LT"
+  },
+  {
+    "name": "ZAPP",
+    "unit": "LT"
+  },
+  {
+    "name": "MIRAVIS",
+    "unit": "LT"
+  },
+  {
+    "name": "ORGANIC WP",
+    "unit": "KG"
+  },
+  {
+    "name": "NUTRIGOW FINE",
+    "unit": "LT"
+  },
+  {
+    "name": "HOGO",
+    "unit": "UN"
+  },
+  {
+    "name": "POWER CITRUS",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORPIRIFOS 480",
+    "unit": "LT"
+  },
+  {
+    "name": "VIVANTHA",
+    "unit": "KG"
+  },
+  {
+    "name": "REGLONE",
+    "unit": "LT"
+  },
+  {
+    "name": "CERIMONIA",
+    "unit": "LT"
+  },
+  {
+    "name": "ACTIFLOW ZN",
+    "unit": "LT"
+  },
+  {
+    "name": "ACTISEED",
+    "unit": "LT"
+  },
+  {
+    "name": "ASSIST",
+    "unit": "LT"
+  },
+  {
+    "name": "FORTGREEN XCELLENCE",
+    "unit": "KG"
+  },
+  {
+    "name": "FORTGREEN SEEED DRY",
+    "unit": "KG"
+  },
+  {
+    "name": "FORTGREEN CURATIVE",
+    "unit": "KG"
+  },
+  {
+    "name": "FORTGREEN BLACK GOLD",
+    "unit": "LT"
+  },
+  {
+    "name": "POLYTRIN EC",
+    "unit": "LT"
+  },
+  {
+    "name": "SINFONAT",
+    "unit": "LT"
+  },
+  {
+    "name": "GESAPRIM GRDA",
+    "unit": "KG"
+  },
+  {
+    "name": "RECORD",
+    "unit": "LT"
+  },
+  {
+    "name": "BORO SUPER",
+    "unit": "LT"
+  },
+  {
+    "name": "RODOLIA",
+    "unit": "KG"
+  },
+  {
+    "name": "PANZEBER",
+    "unit": "KG"
+  },
+  {
+    "name": "MIRATO",
+    "unit": "LT"
+  },
+  {
+    "name": "TRIDIUM UPL",
+    "unit": "KG"
+  },
+  {
+    "name": "CAPATAAZ",
+    "unit": "LT"
+  },
+  {
+    "name": "20.00.20",
+    "unit": "KG"
+  },
+  {
+    "name": "ALADE",
+    "unit": "LT"
+  },
+  {
+    "name": "STARFIX SOJA",
+    "unit": "KG"
+  },
+  {
+    "name": "TEBUCO 430",
+    "unit": "LT"
+  },
+  {
+    "name": "BIFENTRINA NORTOX",
+    "unit": "LT"
+  },
+  {
+    "name": "CYPRESS",
+    "unit": "LT"
+  },
+  {
+    "name": "LALRISE AZOS",
+    "unit": "LT"
+  },
+  {
+    "name": "LALSTOP",
+    "unit": "KG"
+  },
+  {
+    "name": "ONIX",
+    "unit": "LT"
+  },
+  {
+    "name": "RIZOS-BACILLUS",
+    "unit": "LT"
+  },
+  {
+    "name": "SILOPRO",
+    "unit": "UN"
+  },
+  {
+    "name": "EVENTRA",
+    "unit": "KG"
+  },
+  {
+    "name": "CLORPIRIFOS GHARDA",
+    "unit": "LT"
+  },
+  {
+    "name": "AUMENAX",
+    "unit": "LT"
+  },
+  {
+    "name": "MESS",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTILIZANTE TSP 45% P205 10% CA",
+    "unit": "KG"
+  },
+  {
+    "name": "THIOBEL",
+    "unit": "KG"
+  },
+  {
+    "name": "CARTARYS",
+    "unit": "KG"
+  },
+  {
+    "name": "ORIGAN",
+    "unit": "LT"
+  },
+  {
+    "name": "A SULFATO AMONIO 21-00-00 GR 50KG",
+    "unit": "SC"
+  },
+  {
+    "name": "TERRADOR 339",
+    "unit": "SC"
+  },
+  {
+    "name": "INTREPID EDGE",
+    "unit": "LT"
+  },
+  {
+    "name": "DECORUM",
+    "unit": "LT"
+  },
+  {
+    "name": "VERDAVIS",
+    "unit": "LT"
+  },
+  {
+    "name": "SUPREM- MAG PLUS (SULFATO DE MAGNESIO)",
+    "unit": "KG"
+  },
+  {
+    "name": "FS - 533 RR",
+    "unit": "KG"
+  },
+  {
+    "name": "WEST OIL",
+    "unit": "LT"
+  },
+  {
+    "name": "QUALITY TS",
+    "unit": "KG"
+  },
+  {
+    "name": "INOC. STARFIX SOJA ESTIRPE SEMIA",
+    "unit": "LT"
+  },
+  {
+    "name": "LALFIX NITRO",
+    "unit": "LT"
+  },
+  {
+    "name": "SPECTRO",
+    "unit": "LT"
+  },
+  {
+    "name": "OFF ROAD",
+    "unit": "LT"
+  },
+  {
+    "name": "BELIMOL",
+    "unit": "LT"
+  },
+  {
+    "name": "FULLMURON",
+    "unit": "KG"
+  },
+  {
+    "name": "BORO ULTRA",
+    "unit": "KG"
+  },
+  {
+    "name": "CONTROLLER 15KG",
+    "unit": "KG"
+  },
+  {
+    "name": "FERTILIZANTE YARABASA ABSOLUTO",
+    "unit": "UN"
+  },
+  {
+    "name": "SINGULARBR",
+    "unit": "LT"
+  },
+  {
+    "name": "CONCENTRAT FIX",
+    "unit": "LT"
+  },
+  {
+    "name": "MAGNÉSIO ULTRA HEPTAHIDRATADO",
+    "unit": "KG"
+  },
+  {
+    "name": "ODIN 430",
+    "unit": "SC"
+  },
+  {
+    "name": "FOX SUPRA",
+    "unit": "LT"
+  },
+  {
+    "name": "TAGGER",
+    "unit": "LT"
+  },
+  {
+    "name": "REPHON 800 WG",
+    "unit": "KG"
+  },
+  {
+    "name": "METOMIL 215 SL NORTOX",
+    "unit": "LT"
+  },
+  {
+    "name": "JUDOKA SUPER 250 CS",
+    "unit": "LT"
+  },
+  {
+    "name": "TROIA 800 WP",
+    "unit": "KG"
+  },
+  {
+    "name": "NILLUS",
+    "unit": "LT"
+  },
+  {
+    "name": "TARGA MAX HT",
+    "unit": "LT"
+  },
+  {
+    "name": "BAZUKA 216 SL",
+    "unit": "LT"
+  },
+  {
+    "name": "CARAVAN LIQ",
+    "unit": "LT"
+  },
+  {
+    "name": "SEMENTE DE CAPIM",
+    "unit": "UN"
+  },
+  {
+    "name": "GRASIDIM",
+    "unit": "LT"
+  },
+  {
+    "name": "NT SUPREM MAG PLUS (SULFATO DE MAGNESIO)",
+    "unit": "SC"
+  },
+  {
+    "name": "LANEX 800 WG",
+    "unit": "KG"
+  },
+  {
+    "name": "LEGION",
+    "unit": "LT"
+  },
+  {
+    "name": "EGAN",
+    "unit": "LT"
+  },
+  {
+    "name": "ADENGO",
+    "unit": "LT"
+  },
+  {
+    "name": "DEALER",
+    "unit": "LT"
+  },
+  {
+    "name": "GLUCARE",
+    "unit": "LT"
+  },
+  {
+    "name": "MAGNUM",
+    "unit": "KG"
+  },
+  {
+    "name": "GLUFOSINATO",
+    "unit": "LT"
+  },
+  {
+    "name": "METRARO",
+    "unit": "LT"
+  },
+  {
+    "name": "ADVER 240",
+    "unit": "LT"
+  },
+  {
+    "name": "SEVEN",
+    "unit": "LT"
+  },
+  {
+    "name": "UTRISHA N",
+    "unit": "KG"
+  },
+  {
+    "name": "ACLAMADO",
+    "unit": "LT"
+  },
+  {
+    "name": "ACTARA",
+    "unit": "KG"
+  },
+  {
+    "name": "JOKER ADJUVANTE",
+    "unit": "LT"
+  },
+  {
+    "name": "EXTREME",
+    "unit": "LT"
+  },
+  {
+    "name": "TRIGGER 240 S",
+    "unit": "LT"
+  },
+  {
+    "name": "GANAMONIUM",
+    "unit": "LT"
+  },
+  {
+    "name": "SPIDER 840 WG",
+    "unit": "KG"
+  },
+  {
+    "name": "BAMAKO 700 WG",
+    "unit": "LT"
+  },
+  {
+    "name": "ADLEROIL",
+    "unit": "LT"
+  },
+  {
+    "name": "BLOWOUT",
+    "unit": "LT"
+  },
+  {
+    "name": "TRICHODERMIL",
+    "unit": "LT"
+  },
+  {
+    "name": "SUMIRODY 300",
+    "unit": "LT"
+  },
+  {
+    "name": "MAGNIVA STEEL",
+    "unit": "UN"
+  },
+  {
+    "name": "RECOVER BLACK",
+    "unit": "LT"
+  },
+  {
+    "name": "MIRANT",
+    "unit": "LT"
+  },
+  {
+    "name": "GERMANICA",
+    "unit": "LT"
+  },
+  {
+    "name": "EDLINGE",
+    "unit": "LT"
+  },
+  {
+    "name": "BRAVONIL",
+    "unit": "LT"
+  },
+  {
+    "name": "SKYFLEX",
+    "unit": "LT"
+  },
+  {
+    "name": "CRYSTAL",
+    "unit": "LT"
+  },
+  {
+    "name": "FLORILEGE",
+    "unit": "LT"
+  },
+  {
+    "name": "ONEA",
+    "unit": "LT"
+  },
+  {
+    "name": "PRIME SP",
+    "unit": "LT"
+  },
+  {
+    "name": "NORUX",
+    "unit": "LT"
+  },
+  {
+    "name": "VEEPER",
+    "unit": "LT"
+  },
+  {
+    "name": "DISPERSE",
+    "unit": "LT"
+  },
+  {
+    "name": "CASSOL MG",
+    "unit": "KG"
+  },
+  {
+    "name": "BRANDT MANNI PLEX",
+    "unit": "LT"
+  },
+  {
+    "name": "BRANDT PLANT START 20L",
+    "unit": "LT"
+  },
+  {
+    "name": "BRANDT SMART QUATRO",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORFENAPIR",
+    "unit": "LT"
+  },
+  {
+    "name": "FLUAZINAM NORTOX",
+    "unit": "LT"
+  },
+  {
+    "name": "PLUST",
+    "unit": "LT"
+  },
+  {
+    "name": "DISCO BLACK",
+    "unit": "LT"
+  },
+  {
+    "name": "INSTIVO",
+    "unit": "LT"
+  },
+  {
+    "name": "SUPER N PRO 25 00 25 + 1%S UREIA GRANUL FERTIPAR",
+    "unit": "KG"
+  },
+  {
+    "name": "EDDUS",
+    "unit": "LT"
+  },
+  {
+    "name": "BLAVITY",
+    "unit": "LT"
+  },
+  {
+    "name": "ONSUVA",
+    "unit": "LT"
+  },
+  {
+    "name": "CLIPPER SINON",
+    "unit": "KG"
+  },
+  {
+    "name": "SUPA MOLY",
+    "unit": "LT"
+  },
+  {
+    "name": "ZETHAMAXX",
+    "unit": "LT"
+  },
+  {
+    "name": "GLIFOSATO SOLDIER",
+    "unit": "KG"
+  },
+  {
+    "name": "AIR TRUCK",
+    "unit": "LT"
+  },
+  {
+    "name": "SUPREME ESSENCE",
+    "unit": "LT"
+  },
+  {
+    "name": "INOC. SIMBIOSE NOD SOJA",
+    "unit": "LT"
+  },
+  {
+    "name": "CLIMUR",
+    "unit": "KG"
+  },
+  {
+    "name": "BOOSTER INFINITY",
+    "unit": "LT"
+  },
+  {
+    "name": "MULTIBORO ACIDO BORICO",
+    "unit": "KG"
+  },
+  {
+    "name": "MULTBOR",
+    "unit": "KG"
+  },
+  {
+    "name": "ETHREL 720",
+    "unit": "LT"
+  },
+  {
+    "name": "KELLUS COOPER RN",
+    "unit": "KG"
+  },
+  {
+    "name": "ONISUVA",
+    "unit": "LT"
+  },
+  {
+    "name": "PIRATOR 360",
+    "unit": "LT"
+  },
+  {
+    "name": "SCORCH",
+    "unit": "LT"
+  },
+  {
+    "name": "CUTLASS",
+    "unit": "KG"
+  },
+  {
+    "name": "LUFENURUN NORTO",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTIL MAP PURIFICADO",
+    "unit": "SC"
+  },
+  {
+    "name": "DIFO",
+    "unit": "LT"
+  },
+  {
+    "name": "VALLEX",
+    "unit": "LT"
+  },
+  {
+    "name": "ARBUST",
+    "unit": "LT"
+  },
+  {
+    "name": "ELIMINATE",
+    "unit": "LT"
+  },
+  {
+    "name": "ABAMEX MAXX",
+    "unit": "LT"
+  },
+  {
+    "name": "COFENRIN",
+    "unit": "LT"
+  },
+  {
+    "name": "MAXI ZINC",
+    "unit": "LT"
+  },
+  {
+    "name": "CONCENTRAT MN",
+    "unit": "LT"
+  },
+  {
+    "name": "ZAFERA",
+    "unit": "KG"
+  },
+  {
+    "name": "SEM FOR BRACH PIATA",
+    "unit": "SC"
+  },
+  {
+    "name": "CLOPANTO",
+    "unit": "LT"
+  },
+  {
+    "name": "METARRIL WP",
+    "unit": "KG"
+  },
+  {
+    "name": "SANDAL",
+    "unit": "KG"
+  },
+  {
+    "name": "INOC SIMBIOSE MAIZ",
+    "unit": "DS"
+  },
+  {
+    "name": "METOMY",
+    "unit": "KG"
+  },
+  {
+    "name": "STIMULCONTROL S",
+    "unit": "LT"
+  },
+  {
+    "name": "FREEFOS",
+    "unit": "LT"
+  },
+  {
+    "name": "CONCENTRAT MG",
+    "unit": "LT"
+  },
+  {
+    "name": "ATRAER WG",
+    "unit": "LT"
+  },
+  {
+    "name": "ZARTAN",
+    "unit": "KG"
+  },
+  {
+    "name": "GLUTAMIN DOBLE",
+    "unit": "LT"
+  },
+  {
+    "name": "ERRADICUR",
+    "unit": "LT"
+  },
+  {
+    "name": "MESOTRIONA NORTOX",
+    "unit": "LT"
+  },
+  {
+    "name": "VIRCONTROL S.F",
+    "unit": "KG"
+  },
+  {
+    "name": "SENHA 720",
+    "unit": "KG"
+  },
+  {
+    "name": "SAFIRE MAG PLUS",
+    "unit": "KG"
+  },
+  {
+    "name": "UREIA AGRICOLA",
+    "unit": "KG"
+  },
+  {
+    "name": "FOSFATO MONOAMONICO CRISTAL",
+    "unit": "KG"
+  },
+  {
+    "name": "TECNUP PREMIUM",
+    "unit": "LT"
+  },
+  {
+    "name": "FLUMIZIN",
+    "unit": "LT"
+  },
+  {
+    "name": "METRIN",
+    "unit": "LT"
+  },
+  {
+    "name": "COPPER",
+    "unit": "KG"
+  },
+  {
+    "name": "MAX ZINCO",
+    "unit": "LT"
+  },
+  {
+    "name": "DIRETO",
+    "unit": "LT"
+  },
+  {
+    "name": "BIO TURBO",
+    "unit": "KG"
+  },
+  {
+    "name": "KSOL",
+    "unit": "KG"
+  },
+  {
+    "name": "SUGAR",
+    "unit": "KG"
+  },
+  {
+    "name": "SOLUTANK",
+    "unit": "LT"
+  },
+  {
+    "name": "VEEPAR",
+    "unit": "LT"
+  },
+  {
+    "name": "BIO SIL",
+    "unit": "LT"
+  },
+  {
+    "name": "INDUCTOR SEB",
+    "unit": "LT"
+  },
+  {
+    "name": "GLUFOS WYN",
+    "unit": "KG"
+  },
+  {
+    "name": "EXATO",
+    "unit": "LT"
+  },
+  {
+    "name": "NORUS",
+    "unit": "LT"
+  },
+  {
+    "name": "ARKEIRO",
+    "unit": "KG"
+  },
+  {
+    "name": "S-METALOCLORO NORTOX",
+    "unit": "LT"
+  },
+  {
+    "name": "AMISTAR TOP",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTILIZANTE MAP 11-52-00",
+    "unit": "KG"
+  },
+  {
+    "name": "FERTILIZANTE SAM 20-00-00+23% S",
+    "unit": "KG"
+  },
+  {
+    "name": "PROTANK",
+    "unit": "KG"
+  },
+  {
+    "name": "KROMSTAR",
+    "unit": "LT"
+  },
+  {
+    "name": "YAMATO",
+    "unit": "LT"
+  },
+  {
+    "name": "FERTILIZANTE ORGANOMINERAL BRASFERTIL",
+    "unit": "KG"
+  },
+  {
+    "name": "NEMACONTROL",
+    "unit": "LT"
+  },
+  {
+    "name": "INOC. SIMBIOSE NOD FEIJÃO",
+    "unit": "DS"
+  },
+  {
+    "name": "IMPAR 350FS",
+    "unit": "LT"
+  },
+  {
+    "name": "FRONTIER CONTROL",
+    "unit": "LT"
+  },
+  {
+    "name": "TOPIK 240",
+    "unit": "LT"
+  },
+  {
+    "name": "FOMESAFEN CCAB",
+    "unit": "LT"
+  },
+  {
+    "name": "VERIMARK",
+    "unit": "LT"
+  },
+  {
+    "name": "GLUTAMIN EXTRA",
+    "unit": "LT"
+  },
+  {
+    "name": "MANCOZEBE RAINZEB",
+    "unit": "KG"
+  },
+  {
+    "name": "REFORCE ULTRA",
+    "unit": "LT"
+  },
+  {
+    "name": "ACETAMIPRIDO ACEGOL",
+    "unit": "KG"
+  },
+  {
+    "name": "ORO-MICROTEC COMPLEMIX",
+    "unit": "LT"
+  },
+  {
+    "name": "ACETAMIPRIDO + BIFENTRINA",
+    "unit": "KG"
+  },
+  {
+    "name": "FS 20-00-00 SULFATO AMONIO",
+    "unit": "KG"
+  },
+  {
+    "name": "INOC SILOTRATO REFRIGERADO",
+    "unit": "UN"
+  },
+  {
+    "name": "CHLOROTHALONIL 720 YONON",
+    "unit": "LT"
+  },
+  {
+    "name": "MACROFOL",
+    "unit": "LT"
+  },
+  {
+    "name": "ACTICROP",
+    "unit": "LT"
+  },
+  {
+    "name": "PROGIBB",
+    "unit": "KG"
+  },
+  {
+    "name": "WINOUT XTRA",
+    "unit": "LT"
+  },
+  {
+    "name": "AFINCO BR",
+    "unit": "LT"
+  },
+  {
+    "name": "TECNUP MAX 720",
+    "unit": "KG"
+  },
+  {
+    "name": "DURAX",
+    "unit": "LT"
+  },
+  {
+    "name": "METOLACLORO NORTOX",
+    "unit": "LT"
+  },
+  {
+    "name": "GLUFOSINATE-AMMONIUM",
+    "unit": "LT"
+  },
+  {
+    "name": "FS 20,5-00-00",
+    "unit": "KG"
+  },
+  {
+    "name": "YARABRASA TURBO 03 32 08",
+    "unit": "KG"
+  },
+  {
+    "name": "FLUIDOS F028 PO SECANTE",
+    "unit": "KG"
+  },
+  {
+    "name": "RIZOLIQ LLI",
+    "unit": "LT"
+  },
+  {
+    "name": "LUMITREO SOY",
+    "unit": "LT"
+  },
+  {
+    "name": "PREMAX LLI",
+    "unit": "LT"
+  },
+  {
+    "name": "BRANDT SMART TRIO",
+    "unit": "LT"
+  },
+  {
+    "name": "AGPREPARO",
+    "unit": "LT"
+  },
+  {
+    "name": "CURYGEN EC",
+    "unit": "LT"
+  },
+  {
+    "name": "ACEWAY",
+    "unit": "KG"
+  },
+  {
+    "name": "ORSA 400 EC",
+    "unit": "LT"
+  },
+  {
+    "name": "ACTILASE ZM",
+    "unit": "LT"
+  },
+  {
+    "name": "MITRION",
+    "unit": "LT"
+  },
+  {
+    "name": "BELYAN",
+    "unit": "LT"
+  },
+  {
+    "name": "TRICLON 280",
+    "unit": "LT"
+  },
+  {
+    "name": "AGENERGIA",
+    "unit": "LT"
+  },
+  {
+    "name": "TRICLOMAX",
+    "unit": "LT"
+  },
+  {
+    "name": "AGRI-K",
+    "unit": "LT"
+  },
+  {
+    "name": "GAPPER BTLCO",
+    "unit": "LT"
+  },
+  {
+    "name": "GLUTAMIN COMO",
+    "unit": "LT"
+  },
+  {
+    "name": "ALLORA",
+    "unit": "KG"
+  },
+  {
+    "name": "BLOQUERO",
+    "unit": "KG"
+  },
+  {
+    "name": "MESTRONG",
+    "unit": "LT"
+  },
+  {
+    "name": "HAMPTON 400 EC",
+    "unit": "LT"
+  },
+  {
+    "name": "FIXER",
+    "unit": "LT"
+  },
+  {
+    "name": "TARBOX",
+    "unit": "KG"
+  },
+  {
+    "name": "BRANDT TRITEK",
+    "unit": "LT"
+  },
+  {
+    "name": "LAPHY PROTECTION",
+    "unit": "KG"
+  },
+  {
+    "name": "CLICK",
+    "unit": "LT"
+  },
+  {
+    "name": "CYTRASPIN ZM",
+    "unit": "LT"
+  },
+  {
+    "name": "CLORFENAPIR KILLIGAN",
+    "unit": "LT"
+  },
+  {
+    "name": "INOCOCULANTE SILOBOV",
+    "unit": "KG"
+  }
+]

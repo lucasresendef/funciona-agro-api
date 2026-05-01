@@ -1,0 +1,66 @@
+services:
+  field-management-backend-postgres:
+    image: postgres:16-alpine
+    container_name: field-management-backend-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: field_management_backend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5544:5432'
+    volumes:
+      - field-management-backend-postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d field_management_backend']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  field-management-backend-keycloak:
+    image: quay.io/keycloak/keycloak:26.1
+    container_name: field-management-backend-keycloak
+    restart: unless-stopped
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://field-management-backend-postgres:5432/field_management_backend_keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HTTP_PORT: 8080
+      KC_HEALTH_ENABLED: 'true'
+      KC_HOSTNAME_STRICT: 'false'
+    command: ['start-dev', '--http-port=8080', '--import-realm']
+    depends_on:
+      field-management-backend-postgres:
+        condition: service_healthy
+    ports:
+      - '8181:8080'
+    volumes:
+      - ./docker/keycloak/import:/opt/keycloak/data/import:ro
+
+  field-management-backend-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: field-management-backend-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3099
+      DATABASE_URL: postgresql://postgres:postgres@field-management-backend-postgres:5432/field_management_backend?schema=public
+      KEYCLOAK_PUBLIC_KEY: REPLACE_WITH_REALM_PUBLIC_KEY
+      KEYCLOAK_URL: http://field-management-backend-keycloak:8080
+      KEYCLOAK_REALM: field-management-backend
+      KEYCLOAK_CLIENT_ID: field-management-api
+    depends_on:
+      field-management-backend-postgres:
+        condition: service_healthy
+    ports:
+      - '3099:3099'
+
+volumes:
+  field-management-backend-postgres-data:
