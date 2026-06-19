@@ -3,6 +3,7 @@
   "enabled": true,
   "displayName": "Funciona Agro",
   "displayNameHtml": "<b>Funciona Agro</b>",
+  "loginTheme": "funciona-agro",
   "registrationAllowed": false,
   "registrationEmailAsUsername": false,
   "rememberMe": true,
@@ -17,6 +18,10 @@
   "ssoSessionMaxLifespan": 86400,
   "roles": {
     "realm": [
+      {
+        "name": "support-admin",
+        "description": "Support portal administrator"
+      },
       {
         "name": "app-admin",
         "description": "Global application administrator"
@@ -107,6 +112,21 @@
             "access.token.claim": "true",
             "userinfo.token.claim": "true"
           }
+        },
+        {
+          "name": "tenant id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "tenant_id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "tenant_id",
+            "jsonType.label": "String",
+            "multivalued": "false"
+          }
         }
       ]
     },
@@ -137,6 +157,23 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
+      ],
+      "protocolMappers": [
+        {
+          "name": "tenant id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "tenant_id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "tenant_id",
+            "jsonType.label": "String",
+            "multivalued": "false"
+          }
+        }
       ]
     }
   ],

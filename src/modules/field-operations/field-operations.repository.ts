@@ -10,14 +10,29 @@ type DatabaseClient = PrismaClient | Prisma.TransactionClient;
 
 const fieldOperationInclude = {
   farm: true,
-  field: true,
   inventoryLocation: true,
   responsibleUser: true,
+  fields: {
+    include: {
+      field: true,
+    },
+    orderBy: {
+      createdAt: 'asc',
+    },
+  },
   items: {
     include: {
       product: {
         include: {
           unitOfMeasure: true,
+        },
+      },
+      fieldResults: {
+        include: {
+          field: true,
+        },
+        orderBy: {
+          createdAt: 'asc',
         },
       },
     },
@@ -47,7 +62,11 @@ export class FieldOperationsRepository {
     }
 
     if (filters.fieldId) {
-      where.fieldId = filters.fieldId;
+      where.fields = {
+        some: {
+          fieldId: filters.fieldId,
+        },
+      };
     }
 
     if (filters.inventoryLocationId) {

@@ -3,6 +3,8 @@ import productsFromPdf from './data/products-from-pdf.json';
 
 const prisma = new PrismaClient();
 
+const auditActor = { id: 'seed', email: 'seed@local' };
+
 type ProductSeedItem = {
   name: string;
   unit: string;
@@ -61,6 +63,10 @@ function calcAverageUnitCost(index: number): number {
   return Number((8 + ((index * 11) % 260) / 3.7).toFixed(3));
 }
 
+function roundToPrecision(value: number): number {
+  return Number(value.toFixed(6));
+}
+
 async function main() {
   const tenant = await prisma.tenant.upsert({
     where: { key: 'funcionagro' },
@@ -75,35 +81,6 @@ async function main() {
     },
   });
 
-  const admin = await prisma.appUser.upsert({
-    where: {
-      tenantId_keycloakUserId: {
-        tenantId: tenant.id,
-        keycloakUserId: 'keycloak-admin-demo',
-      },
-    },
-    update: {
-      name: 'Lucas Resende',
-      email: 'lucas@funcionagro.com.br',
-      isAdmin: true,
-      active: true,
-      updatedBy: 'seed',
-      updatedByEmail: 'seed@local',
-    },
-    create: {
-      tenantId: tenant.id,
-      keycloakUserId: 'keycloak-admin-demo',
-      name: 'Lucas Resende',
-      email: 'lucas@funcionagro.com.br',
-      isAdmin: true,
-      active: true,
-      createdBy: 'seed',
-      createdByEmail: 'seed@local',
-      updatedBy: 'seed',
-      updatedByEmail: 'seed@local',
-    },
-  });
-
   const farms = [];
   for (const farmSeed of FARMS) {
     const farm = await prisma.farm.upsert({
@@ -112,8 +89,8 @@ async function main() {
         tenantId: tenant.id,
         name: farmSeed.name,
         active: true,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
       create: {
         id: farmSeed.id,
@@ -121,42 +98,13 @@ async function main() {
         name: farmSeed.name,
         description: `Unidade produtiva ${farmSeed.name}`,
         active: true,
-        createdBy: admin.keycloakUserId,
-        createdByEmail: admin.email,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        createdBy: auditActor.id,
+        createdByEmail: auditActor.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
     });
     farms.push(farm);
-
-    await prisma.farmUserPermission.upsert({
-      where: {
-        tenantId_farmId_keycloakUserId: {
-          tenantId: tenant.id,
-          farmId: farm.id,
-          keycloakUserId: admin.keycloakUserId,
-        },
-      },
-      update: {
-        role: 'OWNER',
-        active: true,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
-      },
-      create: {
-        tenantId: tenant.id,
-        farmId: farm.id,
-        keycloakUserId: admin.keycloakUserId,
-        userName: admin.name,
-        userEmail: admin.email,
-        role: 'OWNER',
-        active: true,
-        createdBy: admin.keycloakUserId,
-        createdByEmail: admin.email,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
-      },
-    });
   }
 
   for (const fieldSeed of FIELDS) {
@@ -174,8 +122,8 @@ async function main() {
         data: {
           areaHectares: fieldSeed.areaHectares,
           active: true,
-          updatedBy: admin.keycloakUserId,
-          updatedByEmail: admin.email,
+          updatedBy: auditActor.id,
+          updatedByEmail: auditActor.email,
         },
       });
     } else {
@@ -186,10 +134,10 @@ async function main() {
           areaHectares: fieldSeed.areaHectares,
           description: `Área de produção ${fieldSeed.name}`,
           active: true,
-          createdBy: admin.keycloakUserId,
-          createdByEmail: admin.email,
-          updatedBy: admin.keycloakUserId,
-          updatedByEmail: admin.email,
+          createdBy: auditActor.id,
+          createdByEmail: auditActor.email,
+          updatedBy: auditActor.id,
+          updatedByEmail: auditActor.email,
         },
       });
     }
@@ -207,18 +155,18 @@ async function main() {
       },
       update: {
         active: true,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
       create: {
         farmId: farm.id,
         name: locationSeed.name,
         description: `Armazém ${locationSeed.name}`,
         active: true,
-        createdBy: admin.keycloakUserId,
-        createdByEmail: admin.email,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        createdBy: auditActor.id,
+        createdByEmail: auditActor.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
     });
     locations.push(location);
@@ -240,17 +188,17 @@ async function main() {
         update: {
           name: unitNameBySymbol[productSeed.unit] ?? productSeed.unit,
           active: true,
-          updatedBy: admin.keycloakUserId,
-          updatedByEmail: admin.email,
+          updatedBy: auditActor.id,
+          updatedByEmail: auditActor.email,
         },
         create: {
           name: unitNameBySymbol[productSeed.unit] ?? productSeed.unit,
           symbol: productSeed.unit,
           active: true,
-          createdBy: admin.keycloakUserId,
-          createdByEmail: admin.email,
-          updatedBy: admin.keycloakUserId,
-          updatedByEmail: admin.email,
+          createdBy: auditActor.id,
+          createdByEmail: auditActor.email,
+          updatedBy: auditActor.id,
+          updatedByEmail: auditActor.email,
         },
       });
       unitIdsBySymbol.set(productSeed.unit, unit.id);
@@ -261,28 +209,40 @@ async function main() {
   const catalog = productsFromPdf as ProductSeedItem[];
   for (let index = 0; index < catalog.length; index += 1) {
     const item = catalog[index];
-    const product = await prisma.product.upsert({
-      where: { code: toProductCode(index) },
-      update: {
-        name: item.name,
-        category: toCategory(item.name),
-        unitOfMeasureId: unitIdsBySymbol.get(item.unit)!,
-        active: true,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
-      },
-      create: {
-        name: item.name,
-        code: toProductCode(index),
-        category: toCategory(item.name),
-        unitOfMeasureId: unitIdsBySymbol.get(item.unit)!,
-        active: true,
-        createdBy: admin.keycloakUserId,
-        createdByEmail: admin.email,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+    const productCode = toProductCode(index);
+    const existingProduct = await prisma.product.findFirst({
+      where: {
+        tenantId: tenant.id,
+        code: productCode,
       },
     });
+
+    const product = existingProduct
+      ? await prisma.product.update({
+          where: { id: existingProduct.id },
+          data: {
+            name: item.name,
+            category: toCategory(item.name),
+            unitOfMeasureId: unitIdsBySymbol.get(item.unit)!,
+            active: true,
+            updatedBy: auditActor.id,
+            updatedByEmail: auditActor.email,
+          },
+        })
+      : await prisma.product.create({
+          data: {
+            tenantId: tenant.id,
+            name: item.name,
+            code: productCode,
+            category: toCategory(item.name),
+            unitOfMeasureId: unitIdsBySymbol.get(item.unit)!,
+            active: true,
+            createdBy: auditActor.id,
+            createdByEmail: auditActor.email,
+            updatedBy: auditActor.id,
+            updatedByEmail: auditActor.email,
+          },
+        });
     createdProducts.push(product);
   }
 
@@ -304,8 +264,8 @@ async function main() {
         quantity,
         averageUnitCost,
         active: true,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
       create: {
         farmId: location.farmId,
@@ -314,10 +274,10 @@ async function main() {
         quantity,
         averageUnitCost,
         active: true,
-        createdBy: admin.keycloakUserId,
-        createdByEmail: admin.email,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        createdBy: auditActor.id,
+        createdByEmail: auditActor.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
     });
 
@@ -335,12 +295,132 @@ async function main() {
         referenceId: product.id,
         notes: 'Carga inicial do catálogo de produtos',
         active: true,
-        createdBy: admin.keycloakUserId,
-        createdByEmail: admin.email,
-        updatedBy: admin.keycloakUserId,
-        updatedByEmail: admin.email,
+        createdBy: auditActor.id,
+        createdByEmail: auditActor.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
       },
     });
+  }
+
+  const farmNorth = farms[0];
+  const northFields = await prisma.field.findMany({
+    where: {
+      farmId: farmNorth.id,
+      active: true,
+    },
+    orderBy: {
+      name: 'asc',
+    },
+    take: 2,
+  });
+  const northLocation = locations.find((location) => location.farmId === farmNorth.id);
+
+  if (northFields.length >= 2 && northLocation && createdProducts.length >= 2) {
+    const seedOperation = await prisma.fieldOperation.create({
+      data: {
+        farmId: farmNorth.id,
+        inventoryLocationId: northLocation.id,
+        operationDate: new Date(),
+        status: 'FINISHED',
+        description: 'Operação seed multi-talhão',
+        startedAt: new Date(),
+        finishedAt: new Date(),
+        active: true,
+        createdBy: auditActor.id,
+        createdByEmail: auditActor.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+        fields: {
+          create: northFields.map((field) => ({
+            fieldId: field.id,
+            areaHectaresSnapshot: Number(field.areaHectares),
+            active: true,
+            createdBy: auditActor.id,
+            createdByEmail: auditActor.email,
+            updatedBy: auditActor.id,
+            updatedByEmail: auditActor.email,
+          })),
+        },
+        items: {
+          create: [
+            {
+              productId: createdProducts[0].id,
+              quantitySent: 20,
+              quantityReturned: 0,
+              quantityConsumed: 20,
+              unitCostAtOperation: 10,
+              totalCostConsumed: 200,
+              active: true,
+              createdBy: auditActor.id,
+              createdByEmail: auditActor.email,
+              updatedBy: auditActor.id,
+              updatedByEmail: auditActor.email,
+            },
+            {
+              productId: createdProducts[1].id,
+              quantitySent: 10,
+              quantityReturned: 1,
+              quantityConsumed: 9,
+              unitCostAtOperation: 8,
+              totalCostConsumed: 72,
+              active: true,
+              createdBy: auditActor.id,
+              createdByEmail: auditActor.email,
+              updatedBy: auditActor.id,
+              updatedByEmail: auditActor.email,
+            },
+          ],
+        },
+      },
+      include: {
+        fields: true,
+        items: true,
+      },
+    });
+
+    const totalArea = seedOperation.fields.reduce(
+      (acc, entry) => acc + Number(entry.areaHectaresSnapshot),
+      0,
+    );
+
+    for (const item of seedOperation.items) {
+      let allocatedQtyRunning = 0;
+      let allocatedCostRunning = 0;
+
+      for (let index = 0; index < seedOperation.fields.length; index += 1) {
+        const fieldLink = seedOperation.fields[index];
+        const isLast = index === seedOperation.fields.length - 1;
+        const fieldArea = Number(fieldLink.areaHectaresSnapshot);
+        const itemConsumed = Number(item.quantityConsumed);
+        const itemCost = Number(item.totalCostConsumed);
+
+        const quantityAllocated = isLast
+          ? roundToPrecision(itemConsumed - allocatedQtyRunning)
+          : roundToPrecision((itemConsumed * fieldArea) / totalArea);
+
+        const costAllocated = isLast
+          ? roundToPrecision(itemCost - allocatedCostRunning)
+          : roundToPrecision((itemCost * fieldArea) / totalArea);
+
+        allocatedQtyRunning += quantityAllocated;
+        allocatedCostRunning += costAllocated;
+
+        await prisma.fieldOperationItemFieldResult.create({
+          data: {
+            fieldOperationItemId: item.id,
+            fieldId: fieldLink.fieldId,
+            allocatedQuantityConsumed: quantityAllocated,
+            allocatedTotalCostConsumed: costAllocated,
+            active: true,
+            createdBy: auditActor.id,
+            createdByEmail: auditActor.email,
+            updatedBy: auditActor.id,
+            updatedByEmail: auditActor.email,
+          },
+        });
+      }
+    }
   }
 
   console.log(

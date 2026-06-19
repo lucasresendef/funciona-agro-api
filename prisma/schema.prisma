@@ -38,6 +38,7 @@ model Tenant {
   users           AppUser[]
   farms           Farm[]
   farmPermissions FarmUserPermission[]
+  products        Product[]
 
   @@map("tenant")
 }
@@ -45,7 +46,7 @@ model Tenant {
 model AppUser {
   id              String           @id @default(uuid()) @db.Uuid
   tenantId        String           @map("tenant_id") @db.Uuid
-  keycloakUserId  String           @map("keycloak_user_id")
+  keycloakUserId  String?          @map("keycloak_user_id")
   name            String
   email           String
   isAdmin         Boolean          @default(false) @map("is_admin")
@@ -56,8 +57,9 @@ model AppUser {
   createdByEmail  String?          @map("created_by_email")
   updatedBy       String?          @map("updated_by")
   updatedByEmail  String?          @map("updated_by_email")
-  tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Restrict)
-  fieldOperations FieldOperation[] @relation("FieldOperationResponsibleUser")
+  tenant          Tenant               @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  fieldOperations FieldOperation[]     @relation("FieldOperationResponsibleUser")
+  farmPermissions FarmUserPermission[]
 
   @@unique([tenantId, keycloakUserId])
   @@unique([tenantId, email])
@@ -102,8 +104,9 @@ model Field {
   createdByEmail String?          @map("created_by_email")
   updatedBy      String?          @map("updated_by")
   updatedByEmail String?          @map("updated_by_email")
-  farm           Farm             @relation(fields: [farmId], references: [id], onDelete: Restrict)
-  fieldOperations FieldOperation[]
+  farm                  Farm                          @relation(fields: [farmId], references: [id], onDelete: Restrict)
+  operationLinks        FieldOperationField[]
+  itemConsumptionResults FieldOperationItemFieldResult[]
 
   @@index([farmId])
   @@map("field")
@@ -127,8 +130,9 @@ model UnitOfMeasure {
 
 model Product {
   id                String               @id @default(uuid()) @db.Uuid
+  tenantId          String               @map("tenant_id") @db.Uuid
   name              String
-  code              String               @unique
+  code              String
   category          String
   description       String?
   activeIngredient  String?              @map("active_ingredient")
@@ -140,11 +144,14 @@ model Product {
   createdByEmail    String?              @map("created_by_email")
   updatedBy         String?              @map("updated_by")
   updatedByEmail    String?              @map("updated_by_email")
+  tenant            Tenant               @relation(fields: [tenantId], references: [id], onDelete: Restrict)
   unitOfMeasure     UnitOfMeasure        @relation(fields: [unitOfMeasureId], references: [id], onDelete: Restrict)
   inventoryBalances InventoryBalance[]
   inventoryMovements InventoryMovement[]
   fieldOperationItems FieldOperationItem[]
 
+  @@unique([tenantId, code])
+  @@index([tenantId])
   @@index([unitOfMeasureId])
   @@map("product")
 }
@@ -227,8 +234,8 @@ model InventoryMovement {
 
 model FieldOperation {
   id                String               @id @default(uuid()) @db.Uuid
+  sequenceNumber    Int                  @default(autoincrement()) @map("sequence_number")
   farmId            String               @map("farm_id") @db.Uuid
-  fieldId           String               @map("field_id") @db.Uuid
   inventoryLocationId String?            @map("inventory_location_id") @db.Uuid
   operationDate     DateTime             @map("operation_date")
   status            FieldOperationStatus @default(OPEN)
@@ -244,13 +251,13 @@ model FieldOperation {
   updatedBy         String?              @map("updated_by")
   updatedByEmail    String?              @map("updated_by_email")
   farm              Farm                 @relation(fields: [farmId], references: [id], onDelete: Restrict)
-  field             Field                @relation(fields: [fieldId], references: [id], onDelete: Restrict)
   inventoryLocation InventoryLocation?   @relation(fields: [inventoryLocationId], references: [id], onDelete: Restrict)
   responsibleUser   AppUser?             @relation("FieldOperationResponsibleUser", fields: [responsibleUserId], references: [id], onDelete: SetNull)
   items             FieldOperationItem[]
+  fields            FieldOperationField[]
 
   @@index([farmId, operationDate])
-  @@index([fieldId])
+  @@unique([sequenceNumber])
   @@index([inventoryLocationId])
   @@index([responsibleUserId])
   @@map("field_operation")
@@ -275,19 +282,61 @@ model FieldOperationItem {
   updatedByEmail      String?        @map("updated_by_email")
   fieldOperation      FieldOperation @relation(fields: [fieldOperationId], references: [id], onDelete: Cascade)
   product             Product        @relation(fields: [productId], references: [id], onDelete: Restrict)
+  fieldResults        FieldOperationItemFieldResult[]
 
   @@index([fieldOperationId])
   @@index([productId])
   @@map("field_operation_item")
 }
 
+model FieldOperationField {
+  id                String         @id @default(uuid()) @db.Uuid
+  fieldOperationId  String         @map("field_operation_id") @db.Uuid
+  fieldId           String         @map("field_id") @db.Uuid
+  areaHectaresSnapshot Decimal     @map("area_hectares_snapshot") @db.Decimal(14, 4)
+  active            Boolean        @default(true)
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+  createdBy         String?        @map("created_by")
+  createdByEmail    String?        @map("created_by_email")
+  updatedBy         String?        @map("updated_by")
+  updatedByEmail    String?        @map("updated_by_email")
+  fieldOperation    FieldOperation @relation(fields: [fieldOperationId], references: [id], onDelete: Cascade)
+  field             Field          @relation(fields: [fieldId], references: [id], onDelete: Restrict)
+
+  @@unique([fieldOperationId, fieldId])
+  @@index([fieldOperationId])
+  @@index([fieldId])
+  @@map("field_operation_field")
+}
+
+model FieldOperationItemFieldResult {
+  id                          String             @id @default(uuid()) @db.Uuid
+  fieldOperationItemId        String             @map("field_operation_item_id") @db.Uuid
+  fieldId                     String             @map("field_id") @db.Uuid
+  allocatedQuantityConsumed   Decimal            @map("allocated_quantity_consumed") @db.Decimal(18, 6)
+  allocatedTotalCostConsumed  Decimal            @map("allocated_total_cost_consumed") @db.Decimal(18, 6)
+  active                      Boolean            @default(true)
+  createdAt                   DateTime           @default(now()) @map("created_at")
+  updatedAt                   DateTime           @updatedAt @map("updated_at")
+  createdBy                   String?            @map("created_by")
+  createdByEmail              String?            @map("created_by_email")
+  updatedBy                   String?            @map("updated_by")
+  updatedByEmail              String?            @map("updated_by_email")
+  fieldOperationItem          FieldOperationItem @relation(fields: [fieldOperationItemId], references: [id], onDelete: Cascade)
+  field                       Field              @relation(fields: [fieldId], references: [id], onDelete: Restrict)
+
+  @@unique([fieldOperationItemId, fieldId])
+  @@index([fieldOperationItemId])
+  @@index([fieldId])
+  @@map("field_operation_item_field_result")
+}
+
 model FarmUserPermission {
   id             String       @id @default(uuid()) @db.Uuid
   tenantId       String       @map("tenant_id") @db.Uuid
   farmId         String       @map("farm_id") @db.Uuid
-  keycloakUserId String       @map("keycloak_user_id")
-  userName       String       @map("user_name")
-  userEmail      String       @map("user_email")
+  userId         String       @map("user_id") @db.Uuid
   role           FarmUserRole
   active         Boolean      @default(true)
   createdAt      DateTime     @default(now()) @map("created_at")
@@ -298,9 +347,10 @@ model FarmUserPermission {
   updatedByEmail String?      @map("updated_by_email")
   tenant         Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   farm           Farm         @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  user           AppUser      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([tenantId, farmId, keycloakUserId])
+  @@unique([farmId, userId])
   @@index([tenantId])
-  @@index([keycloakUserId])
+  @@index([userId])
   @@map("farm_user_permission")
 }

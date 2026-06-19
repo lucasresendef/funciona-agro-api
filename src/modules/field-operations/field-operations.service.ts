@@ -22,6 +22,42 @@ import {
 } from './field-operation-stock.utils';
 import { FieldOperationsRepository } from './field-operations.repository';
 
+const DISTRIBUTION_PRECISION = 6;
+
+function roundToPrecision(value: number): number {
+  return Number(value.toFixed(DISTRIBUTION_PRECISION));
+}
+
+function allocateProportionallyByArea(
+  totalValue: number,
+  fieldAreas: Array<{ fieldId: string; areaHectares: number }>,
+): Map<string, number> {
+  const totalArea = fieldAreas.reduce((acc, entry) => acc + entry.areaHectares, 0);
+
+  if (totalArea <= 0) {
+    throw new AppError(400, 'Total field area must be greater than zero for proportional allocation.');
+  }
+
+  const allocations = new Map<string, number>();
+  let allocatedRunningTotal = 0;
+
+  for (let index = 0; index < fieldAreas.length; index += 1) {
+    const entry = fieldAreas[index];
+
+    if (index === fieldAreas.length - 1) {
+      allocations.set(entry.fieldId, roundToPrecision(totalValue - allocatedRunningTotal));
+      continue;
+    }
+
+    const raw = (totalValue * entry.areaHectares) / totalArea;
+    const rounded = roundToPrecision(raw);
+    allocations.set(entry.fieldId, rounded);
+    allocatedRunningTotal += rounded;
+  }
+
+  return allocations;
+}
+
 export class FieldOperationsService {
   constructor(
     private readonly fieldOperationsRepository: FieldOperationsRepository,
@@ -69,14 +105,24 @@ export class FieldOperationsService {
       throw new AppError(404, 'Farm not found.');
     }
 
-    const field = await this.fieldsRepository.findById(input.fieldId, authUser?.tenantId);
+    const uniqueFieldIds = [...new Set(input.fieldIds)];
+    const fields = await prisma.field.findMany({
+      where: {
+        id: { in: uniqueFieldIds },
+        farm: {
+          tenantId: authUser?.tenantId,
+        },
+        active: true,
+      },
+    });
 
-    if (!field) {
-      throw new AppError(404, 'Field not found.');
+    if (fields.length !== uniqueFieldIds.length) {
+      throw new AppError(404, 'One or more fields were not found.');
     }
 
-    if (field.farmId !== input.farmId) {
-      throw new AppError(400, 'Field does not belong to the informed farm.');
+    const hasFieldFromOtherFarm = fields.some((field) => field.farmId !== input.farmId);
+    if (hasFieldFromOtherFarm) {
+      throw new AppError(400, 'One or more fields do not belong to the informed farm.');
     }
 
     const inventoryLocation = await this.inventoryLocationRepository.findById(
@@ -166,11 +212,6 @@ export class FieldOperationsService {
             id: input.farmId,
           },
         },
-        field: {
-          connect: {
-            id: input.fieldId,
-          },
-        },
         inventoryLocation: {
           connect: {
             id: input.inventoryLocationId,
@@ -183,6 +224,18 @@ export class FieldOperationsService {
         finishedAt: input.finishedAt ?? null,
         active: true,
         ...auditFields,
+        fields: {
+          create: fields.map((field) => ({
+            field: {
+              connect: {
+                id: field.id,
+              },
+            },
+            areaHectaresSnapshot: Number(field.areaHectares),
+            active: true,
+            ...auditFields,
+          })),
+        },
         items: {
           create: normalizedItems.map((item) => ({
             product: {
@@ -322,11 +375,11 @@ export class FieldOperationsService {
           const deltaReturned = calculateReturnedDelta(previousReturned, nextReturned);
 
           if (deltaReturned !== 0) {
-              const balance = await inventoryBalanceRepository.findByInventoryLocationAndProduct(
-                inventoryLocationId,
-                existingItem.productId,
-                authUser?.tenantId,
-              );
+            const balance = await inventoryBalanceRepository.findByInventoryLocationAndProduct(
+              inventoryLocationId,
+              existingItem.productId,
+              authUser?.tenantId,
+            );
 
             if (!balance || !balance.active) {
               throw new AppError(
@@ -386,6 +439,84 @@ export class FieldOperationsService {
               ...(itemInput.notes !== undefined ? { notes: itemInput.notes } : {}),
               ...auditFields,
             },
+          });
+        }
+      }
+
+      const shouldRecalculateFieldResults =
+        input.status === 'FINISHED' ||
+        (operation.status === 'FINISHED' && input.items && input.items.length > 0);
+
+      if (shouldRecalculateFieldResults) {
+        const fields = operation.fields.filter((entry) => entry.active);
+
+        if (fields.length === 0) {
+          throw new AppError(400, 'Operation has no fields linked for allocation.');
+        }
+
+        await transaction.fieldOperationItemFieldResult.deleteMany({
+          where: {
+            fieldOperationItem: {
+              fieldOperationId: operation.id,
+            },
+          },
+        });
+
+        const nextValuesByItemId = new Map(
+          itemUpdates.map((update) => [
+            update.where.id,
+            {
+              quantityConsumed: update.data.quantityConsumed,
+              totalCostConsumed: update.data.totalCostConsumed,
+            },
+          ]),
+        );
+
+        const itemFieldResultsCreateManyData: Array<{
+          fieldOperationItemId: string;
+          fieldId: string;
+          allocatedQuantityConsumed: number;
+          allocatedTotalCostConsumed: number;
+          active: boolean;
+          createdBy: string | null;
+          createdByEmail: string | null;
+          updatedBy: string | null;
+          updatedByEmail: string | null;
+        }> = [];
+
+        for (const item of operation.items) {
+          const overrides = nextValuesByItemId.get(item.id);
+          const totalConsumed = overrides?.quantityConsumed ?? Number(item.quantityConsumed);
+          const totalCostConsumed = overrides?.totalCostConsumed ?? Number(item.totalCostConsumed);
+          const normalizedTotalConsumed = roundToPrecision(totalConsumed);
+          const normalizedTotalCostConsumed = roundToPrecision(totalCostConsumed);
+
+          const fieldAreas = fields.map((fieldLink) => ({
+            fieldId: fieldLink.fieldId,
+            areaHectares: Number(fieldLink.areaHectaresSnapshot),
+          }));
+
+          const quantityAllocations = allocateProportionallyByArea(normalizedTotalConsumed, fieldAreas);
+          const costAllocations = allocateProportionallyByArea(normalizedTotalCostConsumed, fieldAreas);
+
+          for (const fieldLink of fields) {
+            itemFieldResultsCreateManyData.push({
+              fieldOperationItemId: item.id,
+              fieldId: fieldLink.fieldId,
+              allocatedQuantityConsumed: quantityAllocations.get(fieldLink.fieldId) ?? 0,
+              allocatedTotalCostConsumed: costAllocations.get(fieldLink.fieldId) ?? 0,
+              active: true,
+              createdBy: auditFields.updatedBy,
+              createdByEmail: auditFields.updatedByEmail,
+              updatedBy: auditFields.updatedBy,
+              updatedByEmail: auditFields.updatedByEmail,
+            });
+          }
+        }
+
+        if (itemFieldResultsCreateManyData.length > 0) {
+          await transaction.fieldOperationItemFieldResult.createMany({
+            data: itemFieldResultsCreateManyData,
           });
         }
       }

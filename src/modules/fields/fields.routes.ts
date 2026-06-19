@@ -1,4 +1,5 @@
 import type { FastifyInstance } from 'fastify';
+import { ensureAppAdmin } from '../auth/auth.plugin';
 import { FarmAccessService } from '../auth/farm-access.service';
 import { FarmPermissionRepository } from '../auth/farm-permission.repository';
 import { FarmsRepository } from '../farms/farms.repository';
@@ -16,7 +17,7 @@ export async function fieldsRoutes(app: FastifyInstance): Promise<void> {
   const fieldsController = new FieldsController(fieldsService);
 
   app.get('/fields', fieldsController.list);
-  app.post('/fields', fieldsController.create);
-  app.patch('/fields/:id', fieldsController.update);
-  app.delete('/fields/:id', fieldsController.deactivate);
+  app.post('/fields', { preHandler: ensureAppAdmin }, fieldsController.create);
+  app.patch('/fields/:id', { preHandler: ensureAppAdmin }, fieldsController.update);
+  app.delete('/fields/:id', { preHandler: ensureAppAdmin }, fieldsController.deactivate);
 }

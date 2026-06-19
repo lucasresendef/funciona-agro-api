@@ -1,0 +1,80 @@
+/* Funciona Agro — tema de login do Keycloak.
+   Combina a tela de login com a marca (verde) e o logo do app. */
+
+:root {
+  --fa-brand: hsl(142 58% 37%);
+  --fa-brand-dark: hsl(142 58% 24%);
+  --fa-brand-light: hsl(145 46% 84%);
+}
+
+/* Fundo: gradiente da marca */
+.login-pf body,
+body.login-pf,
+body {
+  background: linear-gradient(135deg, var(--fa-brand-dark) 0%, var(--fa-brand) 70%)
+    fixed !important;
+}
+
+/* Cabeçalho: troca o texto "Funciona Agro" pelo logo */
+#kc-header,
+#kc-header-wrapper {
+  padding: 28px 0;
+  text-align: center;
+}
+
+#kc-header-wrapper {
+  font-size: 0 !important;
+  line-height: 0;
+  color: transparent !important;
+  background-image: url('../img/logo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 56px;
+}
+
+/* Cartão de login */
+.card-pf,
+#kc-content .pf-v5-c-card,
+.login-pf-page .card-pf {
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 18px 40px -20px rgba(11, 51, 30, 0.45) !important;
+}
+
+/* Botão primário (PatternFly v5 + legado) */
+.pf-v5-c-button.pf-m-primary,
+.pf-c-button.pf-m-primary,
+input[type='submit'].btn-primary,
+.btn-primary {
+  background-color: var(--fa-brand) !important;
+  border-color: var(--fa-brand) !important;
+}
+
+.pf-v5-c-button.pf-m-primary:hover,
+.pf-c-button.pf-m-primary:hover,
+input[type='submit'].btn-primary:hover,
+.btn-primary:hover {
+  background-color: var(--fa-brand-dark) !important;
+  border-color: var(--fa-brand-dark) !important;
+}
+
+/* Links (Esqueci a senha, registrar, etc.) */
+a,
+#kc-registration a,
+#kc-info-wrapper a,
+.pf-v5-c-button.pf-m-link {
+  color: var(--fa-brand);
+}
+
+a:hover {
+  color: var(--fa-brand-dark);
+}
+
+/* Foco dos campos */
+.pf-v5-c-form-control:focus,
+.pf-c-form-control:focus,
+input:focus {
+  border-color: var(--fa-brand) !important;
+  outline-color: var(--fa-brand) !important;
+}

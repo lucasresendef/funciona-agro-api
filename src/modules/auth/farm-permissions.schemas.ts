@@ -11,25 +11,11 @@ export const listFarmPermissionsQuerySchema = z
   })
   .merge(paginationQuerySchema);
 
-const farmPermissionBaseSchema = z.object({
+export const createFarmPermissionBodySchema = z.object({
   farmId: z.string().uuid(),
+  userId: z.string().uuid(),
   role: z.nativeEnum(FarmUserRole),
 });
-
-const farmPermissionByUserIdSchema = farmPermissionBaseSchema.extend({
-  userId: z.string().uuid(),
-});
-
-const farmPermissionByKeycloakSchema = farmPermissionBaseSchema.extend({
-  keycloakUserId: z.string().trim().min(1),
-  userName: z.string().trim().min(1),
-  userEmail: z.string().trim().email(),
-});
-
-export const createFarmPermissionBodySchema = z.union([
-  farmPermissionByUserIdSchema,
-  farmPermissionByKeycloakSchema,
-]);
 
 export const updateFarmPermissionBodySchema = z
   .object({

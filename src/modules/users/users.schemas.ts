@@ -10,7 +10,7 @@ export const listUsersQuerySchema = z
   .merge(paginationQuerySchema);
 
 export const createUserBodySchema = z.object({
-  keycloakUserId: z.string().trim().min(1),
+  keycloakUserId: z.string().trim().min(1).optional(),
   name: z.string().trim().min(1),
   email: z.string().trim().email(),
   isAdmin: z.boolean().optional(),
@@ -29,6 +29,10 @@ export const updateUserBodySchema = z
     },
   );
 
+export const linkKeycloakUserBodySchema = z.object({
+  keycloakUserId: z.string().trim().min(1),
+});
+
 export const userIdParamsSchema = z.object({
   id: z.string().uuid(),
 });
@@ -36,3 +40,4 @@ export const userIdParamsSchema = z.object({
 export type ListUsersQuery = z.infer<typeof listUsersQuerySchema>;
 export type CreateUserBody = z.infer<typeof createUserBodySchema>;
 export type UpdateUserBody = z.infer<typeof updateUserBodySchema>;
+export type LinkKeycloakUserBody = z.infer<typeof linkKeycloakUserBodySchema>;

@@ -11,7 +11,9 @@ export class ProductsRepository {
   constructor(private readonly database: DatabaseClient) {}
 
   async findMany(filters: ListProductsQuery, tenantId: string, allowedFarmIds?: string[]) {
-    const where: Prisma.ProductWhereInput = {};
+    const where: Prisma.ProductWhereInput = {
+      tenantId,
+    };
 
     if (typeof filters.active === 'boolean') {
       where.active = filters.active;
@@ -27,20 +29,8 @@ export class ProductsRepository {
       where.inventoryBalances = {
         some: {
           active: true,
-          farm: {
-            tenantId,
-          },
           ...(filters.farmId ? { farmId: filters.farmId } : {}),
           ...(allowedFarmIds ? { farmId: { in: allowedFarmIds } } : {}),
-        },
-      };
-    } else {
-      where.inventoryBalances = {
-        some: {
-          active: true,
-          farm: {
-            tenantId,
-          },
         },
       };
     }
@@ -115,35 +105,13 @@ export class ProductsRepository {
 
   async findById(id: string, tenantId?: string) {
     return this.database.product.findFirst({
-      where: tenantId
-        ? {
-            id,
-            inventoryBalances: {
-              some: {
-                farm: {
-                  tenantId,
-                },
-              },
-            },
-          }
-        : { id },
+      where: tenantId ? { id, tenantId } : { id },
     });
   }
 
   async findByIdWithStock(id: string, tenantId?: string) {
     return this.database.product.findFirst({
-      where: tenantId
-        ? {
-            id,
-            inventoryBalances: {
-              some: {
-                farm: {
-                  tenantId,
-                },
-              },
-            },
-          }
-        : { id },
+      where: tenantId ? { id, tenantId } : { id },
       include: {
         unitOfMeasure: true,
         inventoryBalances: {
@@ -168,17 +136,7 @@ export class ProductsRepository {
         id: {
           in: ids,
         },
-        ...(tenantId
-          ? {
-              inventoryBalances: {
-                some: {
-                  farm: {
-                    tenantId,
-                  },
-                },
-              },
-            }
-          : {}),
+        ...(tenantId ? { tenantId } : {}),
       },
     });
   }

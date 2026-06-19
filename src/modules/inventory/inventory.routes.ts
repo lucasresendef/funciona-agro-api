@@ -1,4 +1,5 @@
 import type { FastifyInstance } from 'fastify';
+import { ensureAppAdmin } from '../auth/auth.plugin';
 import { FarmAccessService } from '../auth/farm-access.service';
 import { FarmPermissionRepository } from '../auth/farm-permission.repository';
 import { FarmsRepository } from '../farms/farms.repository';
@@ -38,7 +39,15 @@ export async function inventoryRoutes(app: FastifyInstance): Promise<void> {
   app.patch('/inventory/balance/:id', inventoryBalanceController.update);
   app.delete('/inventory/balance/:id', inventoryBalanceController.deactivate);
   app.get('/inventory/locations', inventoryLocationController.list);
-  app.post('/inventory/locations', inventoryLocationController.create);
-  app.patch('/inventory/locations/:id', inventoryLocationController.update);
-  app.delete('/inventory/locations/:id', inventoryLocationController.deactivate);
+  app.post('/inventory/locations', { preHandler: ensureAppAdmin }, inventoryLocationController.create);
+  app.patch(
+    '/inventory/locations/:id',
+    { preHandler: ensureAppAdmin },
+    inventoryLocationController.update,
+  );
+  app.delete(
+    '/inventory/locations/:id',
+    { preHandler: ensureAppAdmin },
+    inventoryLocationController.deactivate,
+  );
 }

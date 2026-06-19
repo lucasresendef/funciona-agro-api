@@ -11,9 +11,20 @@ export class AuthProfileService {
   ) {}
 
   async me(authUser: AuthenticatedUser) {
+    if (!authUser.tenantId) {
+      return {
+        authUser,
+        user: null,
+        permissions: [],
+      };
+    }
+
     const [user, permissions] = await Promise.all([
       this.usersRepository.findByKeycloakUserId(authUser.sub, authUser.tenantId),
-      this.farmPermissionRepository.findActiveByKeycloakUserId(authUser.sub, authUser.tenantId),
+      this.farmPermissionRepository.findActiveDetailedByKeycloakUserId(
+        authUser.sub,
+        authUser.tenantId,
+      ),
     ]);
 
     return {
@@ -26,6 +37,10 @@ export class AuthProfileService {
   async syncUser(authUser: AuthenticatedUser, auditFields: CreateAuditFields) {
     if (!authUser.email) {
       throw new AppError(400, 'Authenticated user token does not contain email.');
+    }
+
+    if (!authUser.tenantId) {
+      return null;
     }
 
     const name = authUser.name ?? authUser.email;

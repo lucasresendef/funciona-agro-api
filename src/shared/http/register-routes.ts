@@ -9,6 +9,7 @@ import { fieldsRoutes } from '../../modules/fields/fields.routes';
 import { inventoryRoutes } from '../../modules/inventory/inventory.routes';
 import { productsRoutes } from '../../modules/products/products.routes';
 import { reportsRoutes } from '../../modules/reports/reports.routes';
+import { supportTenantsRoutes } from '../../modules/support-tenants/support-tenants.routes';
 import { unitsRoutes } from '../../modules/units/units.routes';
 import { usersRoutes } from '../../modules/users/users.routes';
 import { healthRoutes } from './health.routes';
@@ -21,6 +22,7 @@ export async function registerAppRoutes(app: FastifyInstance): Promise<void> {
     protectedApp.addHook('preHandler', ensureAuthenticated);
 
     protectedApp.register(authProtectedRoutes);
+    protectedApp.register(supportTenantsRoutes);
     protectedApp.register(usersRoutes);
     protectedApp.register(unitsRoutes);
     protectedApp.register(farmPermissionsRoutes);

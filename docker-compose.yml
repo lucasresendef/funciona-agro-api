@@ -43,6 +43,7 @@ services:
       - '8181:8080'
     volumes:
       - ./docker/keycloak/import:/opt/keycloak/data/import:ro
+      - ./docker/keycloak/themes:/opt/keycloak/themes:ro
 
   funciona-agro-api:
     build:

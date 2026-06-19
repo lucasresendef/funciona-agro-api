@@ -23,7 +23,7 @@ CREATE TABLE "tenant" (
 CREATE TABLE "app_user" (
     "id" UUID NOT NULL,
     "tenant_id" UUID NOT NULL,
-    "keycloak_user_id" TEXT NOT NULL,
+    "keycloak_user_id" TEXT,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "is_admin" BOOLEAN NOT NULL DEFAULT false,
@@ -92,6 +92,7 @@ CREATE TABLE "unit_of_measure" (
 -- CreateTable
 CREATE TABLE "product" (
     "id" UUID NOT NULL,
+    "tenant_id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "code" TEXT NOT NULL,
     "category" TEXT NOT NULL,
@@ -173,8 +174,8 @@ CREATE TABLE "inventory_movement" (
 -- CreateTable
 CREATE TABLE "field_operation" (
     "id" UUID NOT NULL,
+    "sequence_number" SERIAL NOT NULL,
     "farm_id" UUID NOT NULL,
-    "field_id" UUID NOT NULL,
     "inventory_location_id" UUID,
     "operation_date" TIMESTAMP(3) NOT NULL,
     "status" "FieldOperationStatus" NOT NULL DEFAULT 'OPEN',
@@ -216,13 +217,46 @@ CREATE TABLE "field_operation_item" (
 );
 
 -- CreateTable
+CREATE TABLE "field_operation_field" (
+    "id" UUID NOT NULL,
+    "field_operation_id" UUID NOT NULL,
+    "field_id" UUID NOT NULL,
+    "area_hectares_snapshot" DECIMAL(14,4) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT,
+    "created_by_email" TEXT,
+    "updated_by" TEXT,
+    "updated_by_email" TEXT,
+
+    CONSTRAINT "field_operation_field_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "field_operation_item_field_result" (
+    "id" UUID NOT NULL,
+    "field_operation_item_id" UUID NOT NULL,
+    "field_id" UUID NOT NULL,
+    "allocated_quantity_consumed" DECIMAL(18,6) NOT NULL,
+    "allocated_total_cost_consumed" DECIMAL(18,6) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT,
+    "created_by_email" TEXT,
+    "updated_by" TEXT,
+    "updated_by_email" TEXT,
+
+    CONSTRAINT "field_operation_item_field_result_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "farm_user_permission" (
     "id" UUID NOT NULL,
     "tenant_id" UUID NOT NULL,
     "farm_id" UUID NOT NULL,
-    "keycloak_user_id" TEXT NOT NULL,
-    "user_name" TEXT NOT NULL,
-    "user_email" TEXT NOT NULL,
+    "user_id" UUID NOT NULL,
     "role" "FarmUserRole" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -257,7 +291,10 @@ CREATE INDEX "field_farm_id_idx" ON "field"("farm_id");
 CREATE UNIQUE INDEX "unit_of_measure_symbol_key" ON "unit_of_measure"("symbol");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "product_code_key" ON "product"("code");
+CREATE UNIQUE INDEX "product_tenant_id_code_key" ON "product"("tenant_id", "code");
+
+-- CreateIndex
+CREATE INDEX "product_tenant_id_idx" ON "product"("tenant_id");
 
 -- CreateIndex
 CREATE INDEX "product_unit_of_measure_id_idx" ON "product"("unit_of_measure_id");
@@ -290,7 +327,7 @@ CREATE INDEX "inventory_movement_product_id_idx" ON "inventory_movement"("produc
 CREATE INDEX "field_operation_farm_id_operation_date_idx" ON "field_operation"("farm_id", "operation_date");
 
 -- CreateIndex
-CREATE INDEX "field_operation_field_id_idx" ON "field_operation"("field_id");
+CREATE UNIQUE INDEX "field_operation_sequence_number_key" ON "field_operation"("sequence_number");
 
 -- CreateIndex
 CREATE INDEX "field_operation_inventory_location_id_idx" ON "field_operation"("inventory_location_id");
@@ -305,13 +342,31 @@ CREATE INDEX "field_operation_item_field_operation_id_idx" ON "field_operation_i
 CREATE INDEX "field_operation_item_product_id_idx" ON "field_operation_item"("product_id");
 
 -- CreateIndex
-CREATE INDEX "farm_user_permission_keycloak_user_id_idx" ON "farm_user_permission"("keycloak_user_id");
+CREATE INDEX "field_operation_field_field_operation_id_idx" ON "field_operation_field"("field_operation_id");
+
+-- CreateIndex
+CREATE INDEX "field_operation_field_field_id_idx" ON "field_operation_field"("field_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "field_operation_field_field_operation_id_field_id_key" ON "field_operation_field"("field_operation_id", "field_id");
+
+-- CreateIndex
+CREATE INDEX "field_operation_item_field_result_field_operation_item_id_f_key" ON "field_operation_item_field_result"("field_operation_item_id");
+
+-- CreateIndex
+CREATE INDEX "field_operation_item_field_result_field_id_idx" ON "field_operation_item_field_result"("field_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "field_operation_item_field_result_field_operation_item_id_field_id_key" ON "field_operation_item_field_result"("field_operation_item_id", "field_id");
+
+-- CreateIndex
+CREATE INDEX "farm_user_permission_user_id_idx" ON "farm_user_permission"("user_id");
 
 -- CreateIndex
 CREATE INDEX "farm_user_permission_tenant_id_idx" ON "farm_user_permission"("tenant_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "farm_user_permission_tenant_id_farm_id_keycloak_user_id_key" ON "farm_user_permission"("tenant_id", "farm_id", "keycloak_user_id");
+CREATE UNIQUE INDEX "farm_user_permission_farm_id_user_id_key" ON "farm_user_permission"("farm_id", "user_id");
 
 -- AddForeignKey
 ALTER TABLE "app_user" ADD CONSTRAINT "app_user_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -321,6 +376,9 @@ ALTER TABLE "farm" ADD CONSTRAINT "farm_tenant_id_fkey" FOREIGN KEY ("tenant_id"
 
 -- AddForeignKey
 ALTER TABLE "field" ADD CONSTRAINT "field_farm_id_fkey" FOREIGN KEY ("farm_id") REFERENCES "farm"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "product" ADD CONSTRAINT "product_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product" ADD CONSTRAINT "product_unit_of_measure_id_fkey" FOREIGN KEY ("unit_of_measure_id") REFERENCES "unit_of_measure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -350,9 +408,6 @@ ALTER TABLE "inventory_movement" ADD CONSTRAINT "inventory_movement_product_id_f
 ALTER TABLE "field_operation" ADD CONSTRAINT "field_operation_farm_id_fkey" FOREIGN KEY ("farm_id") REFERENCES "farm"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "field_operation" ADD CONSTRAINT "field_operation_field_id_fkey" FOREIGN KEY ("field_id") REFERENCES "field"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "field_operation" ADD CONSTRAINT "field_operation_inventory_location_id_fkey" FOREIGN KEY ("inventory_location_id") REFERENCES "inventory_location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -365,7 +420,22 @@ ALTER TABLE "field_operation_item" ADD CONSTRAINT "field_operation_item_field_op
 ALTER TABLE "field_operation_item" ADD CONSTRAINT "field_operation_item_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "field_operation_field" ADD CONSTRAINT "field_operation_field_field_operation_id_fkey" FOREIGN KEY ("field_operation_id") REFERENCES "field_operation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "field_operation_field" ADD CONSTRAINT "field_operation_field_field_id_fkey" FOREIGN KEY ("field_id") REFERENCES "field"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "field_operation_item_field_result" ADD CONSTRAINT "field_operation_item_field_result_field_operation_item_id_fkey" FOREIGN KEY ("field_operation_item_id") REFERENCES "field_operation_item"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "field_operation_item_field_result" ADD CONSTRAINT "field_operation_item_field_result_field_id_fkey" FOREIGN KEY ("field_id") REFERENCES "field"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "farm_user_permission" ADD CONSTRAINT "farm_user_permission_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "farm_user_permission" ADD CONSTRAINT "farm_user_permission_farm_id_fkey" FOREIGN KEY ("farm_id") REFERENCES "farm"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "farm_user_permission" ADD CONSTRAINT "farm_user_permission_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "app_user"("id") ON DELETE CASCADE ON UPDATE CASCADE;

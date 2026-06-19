@@ -108,6 +108,7 @@ export class ProductsService {
       const inventoryBalanceRepository = new InventoryBalanceRepository(transaction);
       const inventoryMovementRepository = new InventoryMovementRepository(transaction);
       const product = await txProductsRepository.create({
+        tenantId: authUser.tenantId,
         name: input.name,
         code: input.code,
         category: input.category,

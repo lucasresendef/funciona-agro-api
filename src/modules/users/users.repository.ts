@@ -1,4 +1,5 @@
 import type { Prisma, PrismaClient } from '@prisma/client';
+import { AppError } from '../../shared/errors/app-error';
 import {
   buildPaginatedResponse,
   calculatePaginationSkipTake,
@@ -96,20 +97,22 @@ export class UsersRepository {
   }
 
   async upsertByKeycloakUserId(data: Prisma.AppUserUncheckedCreateInput) {
-    // Try to find existing user by keycloakUserId
-    const existingUser = await this.database.appUser.findUnique({
+    const { tenantId, email } = data;
+    const keycloakUserId = data.keycloakUserId;
+
+    if (!keycloakUserId) {
+      throw new AppError(400, 'keycloakUserId is required to sync a user.');
+    }
+
+    const existingByKeycloak = await this.database.appUser.findUnique({
       where: {
-        tenantId_keycloakUserId: {
-          tenantId: data.tenantId,
-          keycloakUserId: data.keycloakUserId,
-        },
+        tenantId_keycloakUserId: { tenantId, keycloakUserId },
       },
     });
 
-    if (existingUser) {
-      // Update existing user
+    if (existingByKeycloak) {
       return this.database.appUser.update({
-        where: { id: existingUser.id },
+        where: { id: existingByKeycloak.id },
         data: {
           name: data.name,
           email: data.email,
@@ -121,34 +124,16 @@ export class UsersRepository {
       });
     }
 
-    // Try to find user by email
-    const userByEmail = await this.database.appUser.findUnique({
+    const existingByEmail = await this.database.appUser.findUnique({
       where: {
-        tenantId_email: {
-          tenantId: data.tenantId,
-          email: data.email!,
-        },
+        tenantId_email: { tenantId, email },
       },
     });
 
-    if (userByEmail) {
-      // Update existing user by email
-      return this.database.appUser.update({
-        where: { id: userByEmail.id },
-        data: {
-          keycloakUserId: data.keycloakUserId,
-          name: data.name,
-          isAdmin: data.isAdmin,
-          active: data.active,
-          updatedBy: data.updatedBy,
-          updatedByEmail: data.updatedByEmail,
-        },
-      });
+    if (existingByEmail) {
+      return null;
     }
 
-    // Create new user
-    return this.database.appUser.create({
-      data,
-    });
+    return this.database.appUser.create({ data });
   }
 }

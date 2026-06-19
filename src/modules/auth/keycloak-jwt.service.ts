@@ -5,6 +5,11 @@ import type { AuthenticatedUser, JwtHeader, JwtPayload } from './auth.types';
 
 const ALLOWED_ALGORITHM = 'RS256';
 const CLOCK_TOLERANCE_SECONDS = 5;
+const allowedClientIds = new Set(
+  [env.KEYCLOAK_CLIENT_ID, ...(env.KEYCLOAK_ALLOWED_CLIENT_IDS?.split(',') ?? [])]
+    .map((clientId) => clientId.trim())
+    .filter(Boolean),
+);
 
 function decodeBase64UrlSegment<T>(value: string): T {
   const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
@@ -33,12 +38,14 @@ function buildPemPublicKey(publicKeyBase64: string): string {
 
 function validateClaims(payload: JwtPayload): void {
   const now = Math.floor(Date.now() / 1000);
+  const realmRoles = payload.realm_access?.roles ?? [];
+  const isGlobalSupportAdmin = realmRoles.includes('support-admin');
 
   if (!payload.sub) {
     throw new AppError(401, 'Bearer token does not contain subject.');
   }
 
-  if (!payload.tenant_id && !payload.tenantId) {
+  if (!payload.tenant_id && !payload.tenantId && !isGlobalSupportAdmin) {
     throw new AppError(401, 'Bearer token does not contain tenant identifier.');
   }
 
@@ -46,12 +53,13 @@ function validateClaims(payload: JwtPayload): void {
     throw new AppError(401, 'Bearer token has invalid issuer.');
   }
 
-  if (payload.azp !== env.KEYCLOAK_CLIENT_ID) {
+  if (!payload.azp || !allowedClientIds.has(payload.azp)) {
     throw new AppError(401, 'Bearer token has invalid authorized party.');
   }
 
   const audiences = Array.isArray(payload.aud) ? payload.aud : payload.aud ? [payload.aud] : [];
-  if (audiences.length > 0 && !audiences.includes(env.KEYCLOAK_CLIENT_ID) && !audiences.includes('account')) {
+  const hasAllowedAudience = audiences.some((audience) => allowedClientIds.has(audience));
+  if (audiences.length > 0 && !hasAllowedAudience && !audiences.includes('account')) {
     throw new AppError(401, 'Bearer token has invalid audience.');
   }
 
@@ -103,7 +111,7 @@ export class KeycloakJwtService {
 
     return {
       sub: payload.sub!,
-      tenantId: payload.tenant_id ?? payload.tenantId!,
+      tenantId: payload.tenant_id ?? payload.tenantId ?? '',
       name: payload.name ?? payload.preferred_username ?? null,
       email: payload.email ?? null,
       preferredUsername: payload.preferred_username ?? null,

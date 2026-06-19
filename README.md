@@ -170,6 +170,10 @@ npm run infra:down
 - `POST /auth/refresh`
 - `GET /auth/me`
 - `POST /auth/sync-user`
+- `POST /support/tenants`
+- `POST /support/tenants/:tenantId/users`
+- `POST /support/tenants/:tenantId/farms`
+- `POST /support/tenants/:tenantId/fields`
 - `GET /users`
 - `POST /users`
 - `DELETE /users/:id`
@@ -199,6 +203,7 @@ npm run infra:down
 - `PATCH /field-operations/:id`
 - `DELETE /field-operations/:id`
 - `POST /reports/inventory-movements/csv`
+- `GET /reports/dashboard-metrics`
 - `GET /reports/jobs/:jobId`
 - `GET /reports/jobs/:jobId/download`
 
@@ -232,7 +237,14 @@ O projeto já inclui um import automático inicial em [funciona-agro-realm.json]
 - client público `funciona-agro-support` para app React administrativo (support)
 - claim obrigatória `tenant_id` no access token
 - claims `sub`, `preferred_username`, `name` e `email` disponíveis no token
-- roles de base: `app-admin`, `farm-owner`, `farm-manager`, `farm-operator`, `farm-viewer`
+- roles de base: `support-admin`, `app-admin`, `farm-owner`, `farm-manager`, `farm-operator`, `farm-viewer`
+
+Para usar os endpoints de suporte que provisionam usuários no Keycloak, configure também no `.env`:
+
+- `KEYCLOAK_ADMIN_REALM` (default `master`)
+- `KEYCLOAK_ADMIN_CLIENT_ID` (default `admin-cli`)
+- `KEYCLOAK_ADMIN_CLIENT_SECRET` (opcional para fluxo client credentials)
+- `KEYCLOAK_ADMIN_USERNAME` e `KEYCLOAK_ADMIN_PASSWORD` (quando não usar `client_secret`)
 
 O backend pode autenticar no Keycloak e retornar `accessToken`, `idToken` e `refreshToken`, mantendo o uso de `accessToken` bearer para as rotas protegidas.
 

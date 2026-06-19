@@ -1,15 +1,26 @@
 import { z } from 'zod';
 
-export const createInventoryMovementsReportBodySchema = z.object({
-  farmId: z.string().uuid(),
+export const inventoryMovementsCsvQuerySchema = z.object({
+  mode: z.enum(['current', 'filtered', 'all']).default('filtered'),
+  farmId: z.string().uuid().optional(),
+  from: z.coerce.date().optional(),
+  to: z.coerce.date().optional(),
+  page: z.coerce.number().int().positive().optional(),
+  pageSize: z.coerce.number().int().positive().max(500).optional(),
+});
+
+export const fieldConsumptionReportQuerySchema = z.object({
+  fieldId: z.string().uuid(),
   from: z.coerce.date(),
   to: z.coerce.date(),
 });
 
-export const reportJobIdParamsSchema = z.object({
-  jobId: z.string().uuid(),
+export const dashboardMetricsQuerySchema = z.object({
+  from: z.coerce.date(),
+  to: z.coerce.date(),
+  farmId: z.string().uuid().optional(),
 });
 
-export type CreateInventoryMovementsReportBody = z.infer<
-  typeof createInventoryMovementsReportBodySchema
->;
+export type InventoryMovementsCsvQuery = z.infer<typeof inventoryMovementsCsvQuerySchema>;
+export type FieldConsumptionReportQuery = z.infer<typeof fieldConsumptionReportQuerySchema>;
+export type DashboardMetricsQuery = z.infer<typeof dashboardMetricsQuerySchema>;

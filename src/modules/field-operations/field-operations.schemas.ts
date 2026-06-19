@@ -23,7 +23,7 @@ export const createFieldOperationItemBodySchema = z.object({
 
 export const createFieldOperationBodySchema = z.object({
   farmId: z.string().uuid(),
-  fieldId: z.string().uuid(),
+  fieldIds: z.array(z.string().uuid()).min(1),
   inventoryLocationId: z.string().uuid(),
   operationDate: z.coerce.date(),
   status: z.nativeEnum(FieldOperationStatus).optional(),

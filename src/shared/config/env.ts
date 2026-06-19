@@ -9,6 +9,12 @@ const envSchema = z.object({
   KEYCLOAK_URL: z.string().url().default('http://localhost:8181'),
   KEYCLOAK_REALM: z.string().trim().min(1).default('funciona-agro'),
   KEYCLOAK_CLIENT_ID: z.string().trim().min(1).default('funciona-agro-api'),
+  KEYCLOAK_ALLOWED_CLIENT_IDS: z.string().trim().optional(),
+  KEYCLOAK_ADMIN_REALM: z.string().trim().min(1).default('master'),
+  KEYCLOAK_ADMIN_CLIENT_ID: z.string().trim().min(1).default('admin-cli'),
+  KEYCLOAK_ADMIN_CLIENT_SECRET: z.string().trim().optional(),
+  KEYCLOAK_ADMIN_USERNAME: z.string().trim().optional(),
+  KEYCLOAK_ADMIN_PASSWORD: z.string().trim().optional(),
   ALLOWED_ORIGINS: z.string().trim().optional(),
 });
 

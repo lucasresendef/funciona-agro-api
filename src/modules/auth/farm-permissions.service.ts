@@ -61,31 +61,16 @@ export class FarmPermissionsService {
       throw new AppError(404, 'Farm not found.');
     }
 
-    if ('userId' in input) {
-      const user = await this.usersRepository.findById(input.userId, authUser.tenantId);
+    const user = await this.usersRepository.findById(input.userId, authUser.tenantId);
 
-      if (!user) {
-        throw new AppError(404, 'User not found.');
-      }
-
-      return this.farmPermissionRepository.create({
-        tenantId: authUser.tenantId,
-        farmId: input.farmId,
-        keycloakUserId: user.keycloakUserId,
-        userName: user.name,
-        userEmail: user.email,
-        role: input.role,
-        active: true,
-        ...auditFields,
-      });
+    if (!user) {
+      throw new AppError(404, 'User not found.');
     }
 
     return this.farmPermissionRepository.create({
       tenantId: authUser.tenantId,
       farmId: input.farmId,
-      keycloakUserId: input.keycloakUserId,
-      userName: input.userName,
-      userEmail: input.userEmail,
+      userId: user.id,
       role: input.role,
       active: true,
       ...auditFields,

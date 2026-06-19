@@ -36,6 +36,41 @@ export class UsersService {
     });
   }
 
+  async linkKeycloak(
+    id: string,
+    keycloakUserId: string,
+    auditFields: UpdateAuditFields,
+    authUser: AuthenticatedUser,
+  ) {
+    const user = await this.usersRepository.findById(id, authUser.tenantId);
+
+    if (!user) {
+      throw new AppError(404, 'User not found.');
+    }
+
+    if (user.keycloakUserId === keycloakUserId) {
+      return user;
+    }
+
+    if (user.keycloakUserId) {
+      throw new AppError(409, 'User is already linked to a Keycloak account.');
+    }
+
+    const existing = await this.usersRepository.findByKeycloakUserId(
+      keycloakUserId,
+      authUser.tenantId,
+    );
+
+    if (existing) {
+      throw new AppError(409, 'This Keycloak account is already linked to another user.');
+    }
+
+    return this.usersRepository.updateById(id, authUser.tenantId, {
+      keycloakUserId,
+      ...auditFields,
+    });
+  }
+
   async deactivate(id: string, auditFields: UpdateAuditFields, authUser: AuthenticatedUser) {
     const user = await this.usersRepository.findById(id, authUser.tenantId);
 

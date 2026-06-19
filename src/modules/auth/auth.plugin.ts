@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { AppError } from '../../shared/errors/app-error';
+import { prisma } from '../../shared/database/prisma';
 import type { AuthenticatedUser } from './auth.types';
 import { KeycloakJwtService } from './keycloak-jwt.service';
 
@@ -37,6 +38,22 @@ export function registerAuth(app: FastifyInstance): void {
 
   app.addHook('onRequest', async (request) => {
     request.authUser = await extractAuthenticatedUser(request, keycloakJwtService);
+
+    if (request.authUser?.tenantId) {
+      const tenant = await prisma.tenant.findFirst({
+        where: {
+          id: request.authUser.tenantId,
+          active: true,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!tenant) {
+        throw new AppError(403, 'Authenticated tenant is inactive or not found.');
+      }
+    }
   });
 }
 
@@ -54,6 +71,31 @@ export async function ensureAppAdmin(request: FastifyRequest): Promise<void> {
   await ensureAuthenticated(request);
 
   if (!isAppAdmin(request)) {
+    throw new AppError(403, 'Admin role required.');
+  }
+}
+
+export function isSupportAdmin(request: FastifyRequest): boolean {
+  const roles = request.authUser?.realmRoles ?? [];
+  return roles.includes('support-admin');
+}
+
+export function isPortalAdmin(request: FastifyRequest): boolean {
+  return isAppAdmin(request) || isSupportAdmin(request);
+}
+
+export async function ensureSupportAdmin(request: FastifyRequest): Promise<void> {
+  await ensureAuthenticated(request);
+
+  if (!isSupportAdmin(request)) {
+    throw new AppError(403, 'Support admin role required.');
+  }
+}
+
+export async function ensurePortalAdmin(request: FastifyRequest): Promise<void> {
+  await ensureAuthenticated(request);
+
+  if (!isPortalAdmin(request)) {
     throw new AppError(403, 'Admin role required.');
   }
 }

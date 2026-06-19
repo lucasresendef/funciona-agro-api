@@ -13,7 +13,7 @@ export async function reportsRoutes(app: FastifyInstance): Promise<void> {
   const reportsService = new ReportsService(reportsRepository, farmAccessService);
   const reportsController = new ReportsController(reportsService);
 
-  app.post('/reports/inventory-movements/csv', reportsController.createInventoryMovementsCsv);
-  app.get('/reports/jobs/:jobId', reportsController.getJobStatus);
-  app.get('/reports/jobs/:jobId/download', reportsController.downloadJobResult);
+  app.get('/reports/inventory-movements/csv', reportsController.exportInventoryMovementsCsv);
+  app.get('/reports/field-consumption', reportsController.getFieldConsumptionReport);
+  app.get('/reports/dashboard-metrics', reportsController.getDashboardMetrics);
 }

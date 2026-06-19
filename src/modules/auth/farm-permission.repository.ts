@@ -7,6 +7,26 @@ import type { ListFarmPermissionsQuery } from './farm-permissions.schemas';
 
 type DatabaseClient = PrismaClient | Prisma.TransactionClient;
 
+const userRelationSelect = { keycloakUserId: true, name: true, email: true } as const;
+
+const responseInclude = {
+  farm: true,
+  user: { select: userRelationSelect },
+} satisfies Prisma.FarmUserPermissionInclude;
+
+type PermissionWithUser = {
+  user: { keycloakUserId: string | null; name: string; email: string };
+};
+
+function flattenUser<T extends PermissionWithUser>({ user, ...rest }: T) {
+  return {
+    ...rest,
+    keycloakUserId: user.keycloakUserId,
+    userName: user.name,
+    userEmail: user.email,
+  };
+}
+
 export class FarmPermissionRepository {
   constructor(private readonly database: DatabaseClient) {}
 
@@ -14,18 +34,32 @@ export class FarmPermissionRepository {
     return this.database.farmUserPermission.findMany({
       where: {
         tenantId,
-        keycloakUserId,
         active: true,
+        user: { keycloakUserId },
       },
     });
+  }
+
+  async findActiveDetailedByKeycloakUserId(keycloakUserId: string, tenantId: string) {
+    const permissions = await this.database.farmUserPermission.findMany({
+      where: {
+        tenantId,
+        active: true,
+        user: { keycloakUserId },
+      },
+      include: responseInclude,
+      orderBy: [{ farm: { name: 'asc' } }],
+    });
+
+    return permissions.map(flattenUser);
   }
 
   async findActiveFarmIdsByKeycloakUserId(keycloakUserId: string, tenantId: string) {
     const permissions = await this.database.farmUserPermission.findMany({
       where: {
         tenantId,
-        keycloakUserId,
         active: true,
+        user: { keycloakUserId },
       },
       select: {
         farmId: true,
@@ -36,12 +70,10 @@ export class FarmPermissionRepository {
   }
 
   async findMany(filters: ListFarmPermissionsQuery, tenantId: string, allowedFarmIds?: string[]) {
-    const where: Prisma.FarmUserPermissionWhereInput = {};
-    where.tenantId = tenantId;
+    const where: Prisma.FarmUserPermissionWhereInput = { tenantId };
+
     if (allowedFarmIds) {
-      where.farmId = {
-        in: allowedFarmIds,
-      };
+      where.farmId = { in: allowedFarmIds };
     }
 
     if (filters.farmId) {
@@ -49,18 +81,14 @@ export class FarmPermissionRepository {
     }
 
     if (filters.keycloakUserId) {
-      where.keycloakUserId = filters.keycloakUserId;
+      where.user = { keycloakUserId: filters.keycloakUserId };
     }
 
     if (filters.role) {
       where.role = filters.role;
     }
 
-    if (typeof filters.active === 'boolean') {
-      where.active = filters.active;
-    } else {
-      where.active = true;
-    }
+    where.active = typeof filters.active === 'boolean' ? filters.active : true;
 
     const { skip, take } = calculatePaginationSkipTake(filters);
     const [data, total] = await Promise.all([
@@ -68,33 +96,22 @@ export class FarmPermissionRepository {
         where,
         skip,
         take,
-        include: {
-          farm: true,
-        },
-        orderBy: [
-          {
-            farm: {
-              name: 'asc',
-            },
-          },
-          {
-            userName: 'asc',
-          },
-        ],
+        include: responseInclude,
+        orderBy: [{ farm: { name: 'asc' } }, { user: { name: 'asc' } }],
       }),
       this.database.farmUserPermission.count({ where }),
     ]);
 
-    return buildPaginatedResponse(data, filters, total);
+    return buildPaginatedResponse(data.map(flattenUser), filters, total);
   }
 
   async create(data: Prisma.FarmUserPermissionUncheckedCreateInput) {
-    return this.database.farmUserPermission.create({
+    const permission = await this.database.farmUserPermission.create({
       data,
-      include: {
-        farm: true,
-      },
+      include: responseInclude,
     });
+
+    return flattenUser(permission);
   }
 
   async findById(id: string) {
@@ -104,22 +121,22 @@ export class FarmPermissionRepository {
   }
 
   async deactivateById(id: string, data: Prisma.FarmUserPermissionUncheckedUpdateInput) {
-    return this.database.farmUserPermission.update({
+    const permission = await this.database.farmUserPermission.update({
       where: { id },
       data,
-      include: {
-        farm: true,
-      },
+      include: responseInclude,
     });
+
+    return flattenUser(permission);
   }
 
   async updateById(id: string, data: Prisma.FarmUserPermissionUncheckedUpdateInput) {
-    return this.database.farmUserPermission.update({
+    const permission = await this.database.farmUserPermission.update({
       where: { id },
       data,
-      include: {
-        farm: true,
-      },
+      include: responseInclude,
     });
+
+    return flattenUser(permission);
   }
 }

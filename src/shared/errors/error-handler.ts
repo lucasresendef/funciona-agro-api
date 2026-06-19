@@ -40,6 +40,11 @@ function buildRequestPayload(request: FastifyRequest): Record<string, unknown> {
 
 export function registerErrorHandler(app: FastifyInstance): void {
   app.setErrorHandler((error, request, reply) => {
+    const genericStatusCode =
+      typeof (error as { statusCode?: unknown }).statusCode === 'number'
+        ? Number((error as { statusCode: number }).statusCode)
+        : null;
+
     if (error instanceof AppError) {
       request.log.warn(
         {
@@ -118,6 +123,27 @@ export function registerErrorHandler(app: FastifyInstance): void {
         });
         return;
       }
+    }
+
+    if (genericStatusCode && genericStatusCode >= 400 && genericStatusCode < 500) {
+      const genericMessage =
+        error instanceof Error ? error.message : 'Request failed.';
+
+      request.log.warn(
+        {
+          requestId: request.id,
+          method: request.method,
+          url: request.url,
+          statusCode: genericStatusCode,
+          message: genericMessage,
+        },
+        'Request failed with client error',
+      );
+
+      reply.status(genericStatusCode).send({
+        message: genericMessage,
+      });
+      return;
     }
 
     request.log.error(

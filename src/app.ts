@@ -42,6 +42,7 @@ export function buildApp() {
   void app.register(helmet);
   void app.register(cors, {
     origin: allowedOrigins && allowedOrigins.length > 0 ? allowedOrigins : false,
+    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
   void app.register(rateLimit, {
