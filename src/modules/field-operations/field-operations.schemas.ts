@@ -1,4 +1,4 @@
-import { FieldOperationStatus } from '@prisma/client';
+import { FieldOperationStatus } from '../../shared/database/prisma-client';
 import { z } from 'zod';
 import { optionalQueryBooleanSchema, paginationQuerySchema } from '../../shared/utils/zod';
 

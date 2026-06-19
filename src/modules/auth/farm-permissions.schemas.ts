@@ -1,4 +1,4 @@
-import { FarmUserRole } from '@prisma/client';
+import { FarmUserRole } from '../../shared/database/prisma-client';
 import { z } from 'zod';
 import { optionalQueryBooleanSchema, paginationQuerySchema } from '../../shared/utils/zod';
 

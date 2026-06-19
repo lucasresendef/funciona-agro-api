@@ -1,7 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { env } from '../shared/config/env';
+import { PrismaClient } from '../shared/database/prisma-client';
 import productsFromPdf from './data/products-from-pdf.json';
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({
+  connectionString: env.DATABASE_URL,
+});
+
+const prisma = new PrismaClient({ adapter });
 
 const auditActor = { id: 'seed', email: 'seed@local' };
 
@@ -9,6 +15,8 @@ type ProductSeedItem = {
   name: string;
   unit: string;
 };
+
+type AllowedUnitSymbol = 'LT' | 'KG';
 
 const FARMS = [
   { id: 'b1d2083a-83b8-40cb-b32e-82f0b7cb7f0a', name: 'Fazenda Funciona Norte' },
@@ -27,12 +35,15 @@ const FIELDS = [
 
 const LOCATIONS = [
   { farmIndex: 0, name: 'Galpão Norte Central' },
-  { farmIndex: 0, name: 'Depósito Norte 2' },
   { farmIndex: 1, name: 'Galpão Sul Central' },
-  { farmIndex: 1, name: 'Depósito Sul 2' },
   { farmIndex: 2, name: 'Galpão Leste Central' },
-  { farmIndex: 2, name: 'Depósito Leste 2' },
 ];
+
+const ALLOWED_UNIT_SYMBOLS: AllowedUnitSymbol[] = ['LT', 'KG'];
+const ALLOWED_UNIT_NAME_BY_SYMBOL: Record<AllowedUnitSymbol, string> = {
+  LT: 'Litro',
+  KG: 'Quilograma',
+};
 
 function toProductCode(index: number): string {
   return `PRD-${String(index + 1).padStart(4, '0')}`;
@@ -173,47 +184,58 @@ async function main() {
   }
 
   const unitIdsBySymbol = new Map<string, string>();
-  const unitNameBySymbol: Record<string, string> = {
-    LT: 'Litro',
-    KG: 'Quilograma',
-    SC: 'Saco',
-    DS: 'Dose',
-    UN: 'Unidade',
-  };
 
-  for (const productSeed of productsFromPdf as ProductSeedItem[]) {
-    if (!unitIdsBySymbol.has(productSeed.unit)) {
-      const unit = await prisma.unitOfMeasure.upsert({
-        where: { symbol: productSeed.unit },
-        update: {
-          name: unitNameBySymbol[productSeed.unit] ?? productSeed.unit,
-          active: true,
-          updatedBy: auditActor.id,
-          updatedByEmail: auditActor.email,
-        },
-        create: {
-          name: unitNameBySymbol[productSeed.unit] ?? productSeed.unit,
-          symbol: productSeed.unit,
-          active: true,
-          createdBy: auditActor.id,
-          createdByEmail: auditActor.email,
-          updatedBy: auditActor.id,
-          updatedByEmail: auditActor.email,
-        },
-      });
-      unitIdsBySymbol.set(productSeed.unit, unit.id);
-    }
+  for (const unitSymbol of ALLOWED_UNIT_SYMBOLS) {
+    const unit = await prisma.unitOfMeasure.upsert({
+      where: { symbol: unitSymbol },
+      update: {
+        name: ALLOWED_UNIT_NAME_BY_SYMBOL[unitSymbol],
+        active: true,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+      },
+      create: {
+        name: ALLOWED_UNIT_NAME_BY_SYMBOL[unitSymbol],
+        symbol: unitSymbol,
+        active: true,
+        createdBy: auditActor.id,
+        createdByEmail: auditActor.email,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+      },
+    });
+    unitIdsBySymbol.set(unitSymbol, unit.id);
   }
 
+  await prisma.unitOfMeasure.updateMany({
+    where: {
+      createdBy: auditActor.id,
+      symbol: {
+        notIn: ALLOWED_UNIT_SYMBOLS,
+      },
+    },
+    data: {
+      active: false,
+      updatedBy: auditActor.id,
+      updatedByEmail: auditActor.email,
+    },
+  });
+
+  const catalog = (productsFromPdf as ProductSeedItem[]).map((item, index) => ({
+    ...item,
+    code: toProductCode(index),
+  }));
+  const desiredProducts = catalog.filter(
+    (item): item is ProductSeedItem & { code: string; unit: AllowedUnitSymbol } =>
+      item.unit === 'LT' || item.unit === 'KG',
+  );
+
   const createdProducts = [];
-  const catalog = productsFromPdf as ProductSeedItem[];
-  for (let index = 0; index < catalog.length; index += 1) {
-    const item = catalog[index];
-    const productCode = toProductCode(index);
+  for (const item of desiredProducts) {
     const existingProduct = await prisma.product.findFirst({
       where: {
         tenantId: tenant.id,
-        code: productCode,
+        code: item.code,
       },
     });
 
@@ -233,7 +255,7 @@ async function main() {
           data: {
             tenantId: tenant.id,
             name: item.name,
-            code: productCode,
+            code: item.code,
             category: toCategory(item.name),
             unitOfMeasureId: unitIdsBySymbol.get(item.unit)!,
             active: true,
@@ -244,6 +266,113 @@ async function main() {
           },
         });
     createdProducts.push(product);
+  }
+
+  const desiredProductCodes = new Set(desiredProducts.map((item) => item.code));
+  const legacyProducts = await prisma.product.findMany({
+    where: {
+      tenantId: tenant.id,
+      createdBy: auditActor.id,
+      code: {
+        startsWith: 'PRD-',
+        notIn: [...desiredProductCodes],
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const legacyLocations = await prisma.inventoryLocation.findMany({
+    where: {
+      farm: {
+        tenantId: tenant.id,
+      },
+      createdBy: auditActor.id,
+      name: {
+        notIn: LOCATIONS.map((location) => location.name),
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const legacyProductIds = legacyProducts.map((product) => product.id);
+  const legacyLocationIds = legacyLocations.map((location) => location.id);
+
+  if (legacyProductIds.length > 0) {
+    await prisma.product.updateMany({
+      where: {
+        id: {
+          in: legacyProductIds,
+        },
+      },
+      data: {
+        active: false,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+      },
+    });
+  }
+
+  if (legacyLocationIds.length > 0) {
+    await prisma.inventoryLocation.updateMany({
+      where: {
+        id: {
+          in: legacyLocationIds,
+        },
+      },
+      data: {
+        active: false,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+      },
+    });
+  }
+
+  if (legacyProductIds.length > 0 || legacyLocationIds.length > 0) {
+    const inventoryBalanceWhere = {
+      createdBy: auditActor.id,
+      OR: [
+        ...(legacyProductIds.length > 0
+          ? [
+              {
+                productId: {
+                  in: legacyProductIds,
+                },
+              },
+            ]
+          : []),
+        ...(legacyLocationIds.length > 0
+          ? [
+              {
+                inventoryLocationId: {
+                  in: legacyLocationIds,
+                },
+              },
+            ]
+          : []),
+      ],
+    };
+
+    await prisma.inventoryBalance.updateMany({
+      where: inventoryBalanceWhere,
+      data: {
+        active: false,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+      },
+    });
+
+    await prisma.inventoryMovement.updateMany({
+      where: inventoryBalanceWhere,
+      data: {
+        active: false,
+        updatedBy: auditActor.id,
+        updatedByEmail: auditActor.email,
+      },
+    });
   }
 
   for (let index = 0; index < createdProducts.length; index += 1) {

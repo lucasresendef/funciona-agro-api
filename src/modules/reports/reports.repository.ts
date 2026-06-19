@@ -1,4 +1,4 @@
-import type { MovementType, Prisma, PrismaClient } from '@prisma/client';
+import type { MovementType, Prisma, PrismaClient } from '../../shared/database/prisma-client';
 
 export class ReportsRepository {
   constructor(private readonly database: PrismaClient) {}

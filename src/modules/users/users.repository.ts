@@ -1,4 +1,4 @@
-import type { Prisma, PrismaClient } from '@prisma/client';
+import type { Prisma, PrismaClient } from '../../shared/database/prisma-client';
 import { AppError } from '../../shared/errors/app-error';
 import {
   buildPaginatedResponse,

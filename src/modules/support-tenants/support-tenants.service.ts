@@ -1,4 +1,4 @@
-import type { FarmUserRole, Prisma, PrismaClient } from '@prisma/client';
+import type { FarmUserRole, Prisma, PrismaClient } from '../../shared/database/prisma-client';
 import { randomUUID } from 'node:crypto';
 import { AppError } from '../../shared/errors/app-error';
 import type { CreateAuditFields } from '../../shared/utils/audit';
