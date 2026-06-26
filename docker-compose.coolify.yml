@@ -60,7 +60,7 @@ services:
       KEYCLOAK_REALM: funciona-agro
       KEYCLOAK_CLIENT_ID: funciona-agro-api
       SERVICE_FQDN_API_3099: api-homolog.funcionagro.com.br
-    command: sh -c "npx prisma migrate deploy && node dist/server.js"
+    command: sh -c "npx prisma migrate deploy && npx tsx src/server.ts"
     depends_on:
       funciona-agro-api-postgres:
         condition: service_healthy
