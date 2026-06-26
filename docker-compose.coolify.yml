@@ -8,15 +8,18 @@ services:
       POSTGRES_DB: funciona_agro_api
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # usada pelo init.sh para criar o usuario do Keycloak
+      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
     volumes:
       - funciona-agro-api-postgres-data:/var/lib/postgresql/data
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres -d funciona_agro_api']
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
+    # sem "ports:" -> Postgres fica SO na rede interna do Coolify (nunca publico)
 
   funciona-agro-api-keycloak:
     image: quay.io/keycloak/keycloak:26.1
@@ -33,6 +36,7 @@ services:
       KC_HTTP_ENABLED: 'true'
       KC_HTTP_PORT: 8080
       KC_HEALTH_ENABLED: 'true'
+      # Coolify cria a rota Traefik deste servico no dominio abaixo (porta 8080)
       SERVICE_FQDN_KEYCLOAK_8080: auth-homolog.funcionagro.com.br
     command: ['start', '--import-realm']
     depends_on:
@@ -56,6 +60,7 @@ services:
       KEYCLOAK_REALM: funciona-agro
       KEYCLOAK_CLIENT_ID: funciona-agro-api
       SERVICE_FQDN_API_3099: api-homolog.funcionagro.com.br
+    command: sh -c "npx prisma migrate deploy && node dist/server.js"
     depends_on:
       funciona-agro-api-postgres:
         condition: service_healthy
