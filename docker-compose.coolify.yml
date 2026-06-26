@@ -48,11 +48,6 @@ services:
       KC_HTTP_ENABLED: 'true'
       KC_HTTP_PORT: 8080
     command: ['start', '--optimized', '--import-realm']
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.funciona-keycloak.rule=Host(`auth-homolog.funcionagro.com.br`)
-      - traefik.http.routers.funciona-keycloak.entrypoints=http
-      - traefik.http.services.funciona-keycloak.loadbalancer.server.port=8080
     depends_on:
       funciona-agro-keycloak-postgres:
         condition: service_healthy
@@ -70,11 +65,6 @@ services:
       KEYCLOAK_REALM: funciona-agro
       KEYCLOAK_CLIENT_ID: funciona-agro-api
     command: sh -c "npx prisma migrate deploy && npx tsx src/server.ts"
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.funciona-api.rule=Host(`api-homolog.funcionagro.com.br`)
-      - traefik.http.routers.funciona-api.entrypoints=http
-      - traefik.http.services.funciona-api.loadbalancer.server.port=3099
     depends_on:
       funciona-agro-api-postgres:
         condition: service_healthy
