@@ -14,6 +14,7 @@ export async function reportsRoutes(app: FastifyInstance): Promise<void> {
   const reportsController = new ReportsController(reportsService);
 
   app.get('/reports/inventory-movements/csv', reportsController.exportInventoryMovementsCsv);
+  app.get('/reports/field-operations/csv', reportsController.exportFieldOperationsCsv);
   app.get('/reports/field-consumption', reportsController.getFieldConsumptionReport);
   app.get('/reports/dashboard-metrics', reportsController.getDashboardMetrics);
 }

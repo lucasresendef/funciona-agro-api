@@ -5,6 +5,7 @@ import type { AuthenticatedUser } from '../auth/auth.types';
 import type { FarmAccessService } from '../auth/farm-access.service';
 import type { DashboardMetricsQuery } from './reports.schemas';
 import type { FieldConsumptionReportQuery } from './reports.schemas';
+import type { FieldOperationsCsvQuery } from './reports.schemas';
 import type { InventoryMovementsCsvQuery } from './reports.schemas';
 import type { ReportsRepository } from './reports.repository';
 
@@ -90,6 +91,65 @@ export class ReportsService {
       fileName: csv.filename,
       stream: csv.stream,
     };
+  }
+
+  async exportFieldOperationsCsv(input: FieldOperationsCsvQuery, authUser: AuthenticatedUser | null) {
+    if (!authUser) {
+      throw new AppError(401, 'Authentication required.');
+    }
+
+    if (input.from && input.to) {
+      if (input.to < input.from) {
+        throw new AppError(400, '"to" must be greater than or equal to "from".');
+      }
+      const rangeMs = input.to.getTime() - input.from.getTime();
+      const maxRangeMs = MAX_DASHBOARD_RANGE_DAYS * 24 * 60 * 60 * 1000;
+      if (rangeMs > maxRangeMs) {
+        throw new AppError(
+          400,
+          `"from" and "to" range cannot exceed ${MAX_DASHBOARD_RANGE_DAYS} days.`,
+        );
+      }
+    }
+
+    const columns = this.fieldOperationCsvColumns();
+    const allowedFarmIds = await this.farmAccessService.getAllowedFarmIds(authUser);
+    if (allowedFarmIds && allowedFarmIds.length === 0) {
+      const empty = this.csvService.generateStream({
+        screen: 'field-operations',
+        mode: 'all',
+        filename: 'operacoes.csv',
+        source: [],
+        columns,
+      });
+      return { fileName: empty.filename, stream: empty.stream };
+    }
+
+    if (input.farmId) {
+      await this.farmAccessService.assertUserCanAccessFarm({
+        authUser,
+        farmId: input.farmId,
+      });
+    }
+
+    const source = this.reportsRepository.streamFieldOperations({
+      tenantId: authUser.tenantId,
+      farmId: input.farmId,
+      from: input.from,
+      to: input.to,
+      status: input.status,
+      allowedFarmIds: allowedFarmIds ?? undefined,
+    });
+
+    const csv = this.csvService.generateStream({
+      screen: 'field-operations',
+      mode: 'all',
+      filename: 'operacoes.csv',
+      source,
+      columns,
+    });
+
+    return { fileName: csv.filename, stream: csv.stream };
   }
 
   async getFieldConsumptionReport(
@@ -376,6 +436,40 @@ export class ReportsService {
       { header: 'Observacoes', value: (row: InventoryMovementCsvRow) => row.notes },
     ] as const;
   }
+
+  private fieldOperationCsvColumns() {
+    return [
+      { header: 'Operacao', value: (row: FieldOperationCsvRow) => row.operationNumber },
+      { header: 'Status', value: (row: FieldOperationCsvRow) => row.status },
+      { header: 'Data', value: (row: FieldOperationCsvRow) => row.operationDate },
+      { header: 'Inicio', value: (row: FieldOperationCsvRow) => row.startedAt },
+      { header: 'Conclusao', value: (row: FieldOperationCsvRow) => row.finishedAt },
+      { header: 'Fazenda', value: (row: FieldOperationCsvRow) => row.farm },
+      { header: 'Talhoes', value: (row: FieldOperationCsvRow) => row.fields },
+      { header: 'Local de Estoque', value: (row: FieldOperationCsvRow) => row.location },
+      { header: 'Produto Cod.', value: (row: FieldOperationCsvRow) => row.productCode },
+      { header: 'Produto', value: (row: FieldOperationCsvRow) => row.productName },
+      { header: 'Unidade', value: (row: FieldOperationCsvRow) => row.unit },
+      { header: 'Qtd. Enviada', value: (row: FieldOperationCsvRow) => row.quantitySent },
+      { header: 'Qtd. Devolvida', value: (row: FieldOperationCsvRow) => row.quantityReturned },
+      { header: 'Qtd. Consumida', value: (row: FieldOperationCsvRow) => row.quantityConsumed },
+      {
+        header: 'Consumo por Talhao',
+        value: (row: FieldOperationCsvRow) => row.consumptionByField,
+      },
+      {
+        header: 'Consumo por Talhao (%)',
+        value: (row: FieldOperationCsvRow) => row.consumptionByFieldPercent,
+      },
+      {
+        header: 'Custo por Talhao',
+        value: (row: FieldOperationCsvRow) => row.costByField,
+      },
+      { header: 'Custo Unit.', value: (row: FieldOperationCsvRow) => row.unitCost },
+      { header: 'Custo Total', value: (row: FieldOperationCsvRow) => row.totalCost },
+      { header: 'Observacoes', value: (row: FieldOperationCsvRow) => row.notes },
+    ] as const;
+  }
 }
 
 interface InventoryMovementCsvRow {
@@ -391,5 +485,28 @@ interface InventoryMovementCsvRow {
   totalCost: number;
   referenceType: string;
   referenceId: string;
+  notes: string;
+}
+
+interface FieldOperationCsvRow {
+  operationNumber: number | string;
+  status: string;
+  operationDate: Date;
+  startedAt: Date | null;
+  finishedAt: Date | null;
+  farm: string;
+  fields: string;
+  location: string;
+  productCode: string;
+  productName: string;
+  unit: string;
+  quantitySent: number;
+  quantityReturned: number;
+  quantityConsumed: number;
+  consumptionByField: string;
+  consumptionByFieldPercent: string;
+  costByField: string;
+  unitCost: number;
+  totalCost: number;
   notes: string;
 }

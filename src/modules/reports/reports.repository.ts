@@ -1,4 +1,15 @@
-import type { MovementType, Prisma, PrismaClient } from '../../shared/database/prisma-client';
+import type {
+  FieldOperationStatus,
+  MovementType,
+  Prisma,
+  PrismaClient,
+} from '../../shared/database/prisma-client';
+
+const FIELD_OPERATION_STATUS_LABEL: Record<FieldOperationStatus, string> = {
+  OPEN: 'Aberta',
+  FINISHED: 'Finalizada',
+  CANCELED: 'Cancelada',
+};
 
 export class ReportsRepository {
   constructor(private readonly database: PrismaClient) {}
@@ -90,6 +101,97 @@ export class ReportsRepository {
         referenceId: movement.referenceId ?? '',
         notes: movement.notes ?? '',
       };
+    }
+  }
+
+  async *streamFieldOperations(input: {
+    tenantId: string;
+    farmId?: string;
+    from?: Date;
+    to?: Date;
+    status?: FieldOperationStatus;
+    allowedFarmIds?: string[];
+  }) {
+    const where: Prisma.FieldOperationWhereInput = {
+      active: true,
+      farm: this.buildFarmScopeWhere(input.tenantId, input.allowedFarmIds),
+      ...(input.farmId ? { farmId: input.farmId } : {}),
+      ...(input.status ? { status: input.status } : {}),
+      ...(input.from && input.to
+        ? { operationDate: { gte: input.from, lte: input.to } }
+        : {}),
+    };
+
+    const operations = await this.database.fieldOperation.findMany({
+      where,
+      include: {
+        farm: true,
+        inventoryLocation: true,
+        fields: { include: { field: true } },
+        items: {
+          include: {
+            product: { include: { unitOfMeasure: true } },
+            fieldResults: { include: { field: true } },
+          },
+          orderBy: { createdAt: 'asc' },
+        },
+      },
+      orderBy: { operationDate: 'desc' },
+    });
+
+    for (const operation of operations) {
+      const fieldNames = operation.fields.map((link) => link.field.name).join(', ');
+      const statusLabel = FIELD_OPERATION_STATUS_LABEL[operation.status];
+      for (const item of operation.items) {
+        const consumed = Number(item.quantityConsumed ?? item.quantitySent);
+        const unitCost = Number(item.unitCostAtOperation);
+        const unitSymbol = item.product.unitOfMeasure.symbol;
+        const totalAllocated = item.fieldResults.reduce(
+          (acc, result) => acc + Number(result.allocatedQuantityConsumed ?? 0),
+          0,
+        );
+        const consumptionByField = item.fieldResults
+          .map(
+            (result) =>
+              `${result.field.name}: ${Number(result.allocatedQuantityConsumed ?? 0).toFixed(2)} ${unitSymbol}`,
+          )
+          .join('; ');
+        const consumptionByFieldPercent = item.fieldResults
+          .map((result) => {
+            const quantity = Number(result.allocatedQuantityConsumed ?? 0);
+            const percent = totalAllocated > 0 ? (quantity / totalAllocated) * 100 : 0;
+            return `${result.field.name}: ${percent.toFixed(0)}%`;
+          })
+          .join('; ');
+        const costByField = item.fieldResults
+          .map(
+            (result) =>
+              `${result.field.name}: ${Number(result.allocatedTotalCostConsumed ?? 0).toFixed(2)}`,
+          )
+          .join('; ');
+        yield {
+          operationNumber: operation.sequenceNumber ?? '',
+          status: statusLabel,
+          operationDate: operation.operationDate,
+          startedAt: operation.startedAt ?? null,
+          finishedAt: operation.finishedAt ?? null,
+          farm: operation.farm.name,
+          fields: fieldNames,
+          location: operation.inventoryLocation?.name ?? '',
+          productCode: item.product.code,
+          productName: item.product.name,
+          unit: item.product.unitOfMeasure.symbol,
+          quantitySent: Number(item.quantitySent),
+          quantityReturned: Number(item.quantityReturned ?? 0),
+          quantityConsumed: consumed,
+          consumptionByField,
+          consumptionByFieldPercent,
+          costByField,
+          unitCost,
+          totalCost: Number(item.totalCostConsumed ?? consumed * unitCost),
+          notes: item.notes ?? '',
+        };
+      }
     }
   }
 

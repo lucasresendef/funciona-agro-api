@@ -6,6 +6,7 @@ export const listInventoryBalanceQuerySchema = z
     farmId: z.string().uuid().optional(),
     inventoryLocationId: z.string().uuid().optional(),
     productId: z.string().uuid().optional(),
+    search: z.string().trim().min(1).optional(),
     active: optionalQueryBooleanSchema,
   })
   .merge(paginationQuerySchema);

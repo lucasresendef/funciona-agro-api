@@ -34,6 +34,15 @@ export class InventoryBalanceRepository {
       where.productId = filters.productId;
     }
 
+    if (filters.search) {
+      where.product = {
+        name: {
+          contains: filters.search,
+          mode: 'insensitive',
+        },
+      };
+    }
+
     if (typeof filters.active === 'boolean') {
       where.active = filters.active;
     } else {

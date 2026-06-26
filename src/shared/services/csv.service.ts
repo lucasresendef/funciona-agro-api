@@ -34,12 +34,22 @@ function formatCsvValue(value: CsvValue, dateTimeFormatter: Intl.DateTimeFormat)
   return String(value);
 }
 
+function stripDiacritics(value: string): string {
+  return value.normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
 function escapeCsv(value: string): string {
-  return `"${value.replaceAll('"', '""')}"`;
+  return `"${stripDiacritics(value).replaceAll('"', '""')}"`;
 }
 
 export class CsvService {
-  generateStream<T>({ screen, mode, source, columns, filename }: CsvStreamParams<T>): CsvStreamResult {
+  generateStream<T>({
+    screen,
+    mode,
+    source,
+    columns,
+    filename,
+  }: CsvStreamParams<T>): CsvStreamResult {
     const safeFilename = filename ?? `${screen}-${mode}.csv`;
     const dateTimeFormatter = new Intl.DateTimeFormat('pt-BR', {
       dateStyle: 'short',

@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import {
   dashboardMetricsQuerySchema,
   fieldConsumptionReportQuerySchema,
+  fieldOperationsCsvQuerySchema,
   inventoryMovementsCsvQuerySchema,
 } from './reports.schemas';
 import type { ReportsService } from './reports.service';
@@ -12,6 +13,14 @@ export class ReportsController {
   exportInventoryMovementsCsv = async (request: FastifyRequest, reply: FastifyReply) => {
     const query = inventoryMovementsCsvQuerySchema.parse(request.query);
     const data = await this.reportsService.exportInventoryMovementsCsv(query, request.authUser);
+    reply.header('Content-Type', 'text/csv; charset=utf-8');
+    reply.header('Content-Disposition', `attachment; filename="${data.fileName}"`);
+    return reply.send(data.stream);
+  };
+
+  exportFieldOperationsCsv = async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = fieldOperationsCsvQuerySchema.parse(request.query);
+    const data = await this.reportsService.exportFieldOperationsCsv(query, request.authUser);
     reply.header('Content-Type', 'text/csv; charset=utf-8');
     reply.header('Content-Disposition', `attachment; filename="${data.fileName}"`);
     return reply.send(data.stream);

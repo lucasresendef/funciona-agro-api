@@ -1,4 +1,12 @@
+import { FieldOperationStatus } from '../../shared/database/prisma-client';
 import { z } from 'zod';
+
+export const fieldOperationsCsvQuerySchema = z.object({
+  farmId: z.string().uuid().optional(),
+  from: z.coerce.date().optional(),
+  to: z.coerce.date().optional(),
+  status: z.nativeEnum(FieldOperationStatus).optional(),
+});
 
 export const inventoryMovementsCsvQuerySchema = z.object({
   mode: z.enum(['current', 'filtered', 'all']).default('filtered'),
@@ -21,6 +29,7 @@ export const dashboardMetricsQuerySchema = z.object({
   farmId: z.string().uuid().optional(),
 });
 
+export type FieldOperationsCsvQuery = z.infer<typeof fieldOperationsCsvQuerySchema>;
 export type InventoryMovementsCsvQuery = z.infer<typeof inventoryMovementsCsvQuerySchema>;
 export type FieldConsumptionReportQuery = z.infer<typeof fieldConsumptionReportQuerySchema>;
 export type DashboardMetricsQuery = z.infer<typeof dashboardMetricsQuerySchema>;
