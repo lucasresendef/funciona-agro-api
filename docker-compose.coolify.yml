@@ -8,43 +8,50 @@ services:
       POSTGRES_DB: funciona_agro_api
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      # usada pelo init.sh para criar o usuario do Keycloak
-      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
     volumes:
       - funciona-agro-api-postgres-data:/var/lib/postgresql/data
-      - ./docker/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres -d funciona_agro_api']
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-    # sem "ports:" -> Postgres fica SO na rede interna do Coolify (nunca publico)
+
+  funciona-agro-keycloak-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    volumes:
+      - funciona-agro-keycloak-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U keycloak -d keycloak']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   funciona-agro-api-keycloak:
-    image: quay.io/keycloak/keycloak:26.1
+    build:
+      context: ./docker/keycloak
     restart: unless-stopped
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://funciona-agro-api-postgres:5432/funciona_agro_keycloak
+      KC_DB_URL: jdbc:postgresql://funciona-agro-keycloak-postgres:5432/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
       KC_HOSTNAME: https://auth-homolog.funcionagro.com.br
       KC_PROXY_HEADERS: xforwarded
       KC_HTTP_ENABLED: 'true'
       KC_HTTP_PORT: 8080
-      KC_HEALTH_ENABLED: 'true'
-      # Coolify cria a rota Traefik deste servico no dominio abaixo (porta 8080)
       SERVICE_FQDN_KEYCLOAK_8080: auth-homolog.funcionagro.com.br
-    command: ['start', '--import-realm']
+    command: ['start', '--optimized', '--import-realm']
     depends_on:
-      funciona-agro-api-postgres:
+      funciona-agro-keycloak-postgres:
         condition: service_healthy
-    volumes:
-      - ./docker/keycloak/import:/opt/keycloak/data/import:ro
-      - ./docker/keycloak/themes:/opt/keycloak/themes:ro
 
   funciona-agro-api:
     build:
@@ -55,7 +62,6 @@ services:
       NODE_ENV: production
       PORT: 3099
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@funciona-agro-api-postgres:5432/funciona_agro_api?schema=public
-      KEYCLOAK_PUBLIC_KEY: ${KEYCLOAK_PUBLIC_KEY}
       KEYCLOAK_URL: https://auth-homolog.funcionagro.com.br
       KEYCLOAK_REALM: funciona-agro
       KEYCLOAK_CLIENT_ID: funciona-agro-api
@@ -67,3 +73,4 @@ services:
 
 volumes:
   funciona-agro-api-postgres-data:
+  funciona-agro-keycloak-postgres-data:
